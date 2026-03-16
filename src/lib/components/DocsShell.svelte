@@ -28,11 +28,56 @@
   let mobileNavOpen = $state(false);
   let query = $state('');
   let searchResults = $state<SearchDoc[]>([]);
+  let searchHasFocus = $state(false);
   let miniSearch: MiniSearch<SearchDoc> | null = null;
   let searchInput: HTMLInputElement | null = null;
   let tocOpen = $state(true);
 
   const toc = $derived(headings.filter((item) => item.level <= 3));
+  const searchActive = $derived(searchHasFocus || searchResults.length > 0);
+
+  const SNIPPET_MAX_LENGTH = 140;
+  const SNIPPET_CONTEXT_CHARS = 55;
+
+  function getSnippet(content: string, searchQuery: string): string {
+    if (!content || !searchQuery.trim()) return '';
+    const normalized = content.replace(/\s+/g, ' ').trim();
+    const q = searchQuery.trim();
+    const lower = normalized.toLowerCase();
+    const qLower = q.toLowerCase();
+    const idx = lower.indexOf(qLower);
+    if (idx >= 0) {
+      const start = Math.max(0, idx - SNIPPET_CONTEXT_CHARS);
+      const end = Math.min(normalized.length, idx + q.length + SNIPPET_CONTEXT_CHARS);
+      let snippet = normalized.slice(start, end).trim();
+      if (start > 0) snippet = '\u2026 ' + snippet;
+      if (end < normalized.length) snippet = snippet + ' \u2026';
+      if (snippet.length > SNIPPET_MAX_LENGTH) {
+        const qPosInSnippet = snippet.toLowerCase().indexOf(qLower);
+        const from =
+          qPosInSnippet >= 0
+            ? Math.max(0, qPosInSnippet - 35)
+            : 0;
+        snippet = (from > 0 ? '\u2026 ' : '') + snippet.slice(from, from + SNIPPET_MAX_LENGTH) + ' \u2026';
+      }
+      return snippet;
+    }
+    const firstWord = q.split(/\s+/)[0];
+    if (firstWord && firstWord.length >= 2) {
+      const wordIdx = lower.indexOf(firstWord.toLowerCase());
+      if (wordIdx >= 0) {
+        const start = Math.max(0, wordIdx - SNIPPET_CONTEXT_CHARS);
+        const end = Math.min(normalized.length, wordIdx + firstWord.length + SNIPPET_CONTEXT_CHARS);
+        let snippet = normalized.slice(start, end).trim();
+        if (start > 0) snippet = '\u2026 ' + snippet;
+        if (end < normalized.length) snippet = snippet + ' \u2026';
+        return snippet.length > SNIPPET_MAX_LENGTH ? snippet.slice(0, SNIPPET_MAX_LENGTH) + ' \u2026' : snippet;
+      }
+    }
+    return normalized.length <= SNIPPET_MAX_LENGTH
+      ? normalized
+      : normalized.slice(0, SNIPPET_MAX_LENGTH).trim() + ' \u2026';
+  }
 
   async function initSearch(): Promise<void> {
     const response = await fetch('/api/docs/search-index');
@@ -66,16 +111,25 @@
     };
 
     const onKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape' && searchActive) {
+        event.preventDefault();
+        clearSearchUi();
+        return;
+      }
+
       const isMac = navigator.platform.toUpperCase().includes('MAC');
       const trigger = isMac ? event.metaKey : event.ctrlKey;
-
       if (!trigger || event.key.toLowerCase() !== 'k') {
         return;
       }
 
       event.preventDefault();
-      searchInput?.focus();
-      searchInput?.select();
+      if (searchActive) {
+        clearSearchUi();
+      } else {
+        searchInput?.focus();
+        searchInput?.select();
+      }
     };
 
     const onClick = async (event: MouseEvent): Promise<void> => {
@@ -154,6 +208,7 @@
   function clearSearchUi(): void {
     query = '';
     searchResults = [];
+    searchHasFocus = false;
     searchInput?.blur();
   }
 
@@ -188,8 +243,17 @@
 </svelte:head>
 
 <div class="docs-app">
+  <div class="blur-fade" aria-hidden="true"></div>
+  {#if searchActive}
+    <button
+      type="button"
+      class="search-backdrop"
+      onclick={clearSearchUi}
+      aria-label="Close search"
+    ></button>
+  {/if}
   <header class="topbar panel">
-    <div class="brand-wrap">
+    <div class="topbar-left">
       <button class="menu-btn" onclick={() => (mobileNavOpen = !mobileNavOpen)} aria-label="Toggle navigation">
         Menu
       </button>
@@ -200,6 +264,8 @@
       <input
         bind:this={searchInput}
         bind:value={query}
+        onfocus={() => (searchHasFocus = true)}
+        onblur={() => (searchHasFocus = false)}
         placeholder="Search docs (Ctrl/Cmd+K)"
         aria-label="Search docs"
       />
@@ -209,15 +275,15 @@
             <li>
               <a href={result.href} onclick={handleSearchSelection}>
                 <strong>{result.title}</strong>
-                {#if result.summary}
-                  <span>{result.summary}</span>
-                {/if}
+                <span class="search-snippet">{getSnippet(result.content, query.trim()) || result.summary}</span>
               </a>
             </li>
           {/each}
         </ul>
       {/if}
     </div>
+
+    <div class="topbar-right" aria-hidden="true"></div>
   </header>
 
   <div class="layout-grid">
@@ -291,92 +357,198 @@
     min-height: 100dvh;
   }
 
+  .blur-fade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(0.8rem + 3.5rem);
+    z-index: 40;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+  }
+
+  .search-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: rgba(15, 30, 24, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: default;
+    animation: search-backdrop-in 0.2s var(--ease-out);
+  }
+
+  @keyframes search-backdrop-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .topbar {
     position: sticky;
     top: 0.8rem;
     z-index: 50;
-    margin: 0 auto 0.9rem;
-    max-width: 1500px;
-    display: flex;
+    margin: 0 0 1rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr minmax(200px, 520px) 1fr;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.85rem;
-    padding: 0.65rem;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    transition: box-shadow var(--duration) var(--ease-out);
   }
 
-  .brand-wrap {
+  .topbar:focus-within {
+    box-shadow: var(--shadow);
+  }
+
+  .topbar-left {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+
+  .topbar-right {
+    min-width: 0;
   }
 
   .brand {
-    text-decoration: none;
-    font-weight: 700;
-    color: #12372a;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    transition: color var(--duration-fast);
+  }
+
+  .brand:hover {
+    color: var(--accent);
   }
 
   .menu-btn,
   .close-btn {
-    border: 1px solid #bed9cc;
-    border-radius: 8px;
-    background: #eff8f3;
-    padding: 0.4rem 0.62rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--accent-subtle);
+    padding: 0.45rem 0.7rem;
     font-weight: 600;
-    color: #1c4c3b;
+    font-size: 0.875rem;
+    color: var(--accent);
     cursor: pointer;
+    transition: background var(--duration-fast), border-color var(--duration-fast), color var(--duration-fast);
+  }
+
+  .menu-btn:hover,
+  .close-btn:hover {
+    background: var(--accent-soft);
+    border-color: var(--line-strong);
+  }
+
+  .menu-btn:focus-visible,
+  .close-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--surface-strong), 0 0 0 4px var(--accent);
   }
 
   .search-wrap {
     position: relative;
-    width: min(620px, 100%);
+    width: min(580px, 100%);
   }
 
   .search-wrap input {
     width: 100%;
-    border: 1px solid #bdd6cb;
-    border-radius: 11px;
-    background: #fff;
-    padding: 0.6rem 0.72rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface-strong);
+    padding: 0.6rem 0.85rem;
+    font-size: 0.9rem;
+    color: var(--ink);
+    transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+  }
+
+  .search-wrap input::placeholder {
+    color: var(--muted-soft);
+  }
+
+  .search-wrap input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(10, 107, 84, 0.12);
   }
 
   .search-results {
     position: absolute;
-    top: calc(100% + 0.35rem);
+    top: calc(100% + 0.4rem);
     left: 0;
     right: 0;
     z-index: 65;
     margin: 0;
-    padding: 0.4rem;
+    padding: 0.35rem;
     list-style: none;
     max-height: 380px;
     overflow-y: auto;
+    animation: search-drop 0.2s var(--ease-out);
+  }
+
+  @keyframes search-drop {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .search-results a {
     display: grid;
-    gap: 0.1rem;
-    padding: 0.55rem;
-    border-radius: 10px;
-    color: #1b3a2f;
-    text-decoration: none;
+    gap: 0.15rem;
+    padding: 0.6rem 0.7rem;
+    border-radius: var(--radius-sm);
+    color: var(--ink-soft);
+    transition: background var(--duration-fast);
   }
 
-  .search-results a:hover {
-    background: #e8f6ef;
+  .search-results a:hover,
+  .search-results a:focus-visible {
+    background: var(--accent-subtle);
+    outline: none;
   }
 
-  .search-results span {
-    color: #4f6c5f;
-    font-size: 0.88rem;
+  .search-results span,
+  .search-results .search-snippet {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
+
+  .search-results .search-snippet {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .layout-grid {
-    max-width: 1500px;
-    margin: 0 auto;
+    width: 100%;
     display: grid;
-    grid-template-columns: 285px minmax(0, 1fr) 260px;
-    gap: 0.85rem;
+    grid-template-columns: 280px minmax(0, 1fr) 250px;
+    gap: 1rem;
     align-items: start;
   }
 
@@ -387,22 +559,31 @@
   .left-nav,
   .toc,
   .content {
-    padding: 0.95rem;
+    padding: 1rem 1.1rem;
   }
 
   .left-nav,
   .toc {
     position: sticky;
-    top: 5.5rem;
+    top: 5.6rem;
     max-height: calc(100dvh - 6.5rem);
     overflow: auto;
+    scrollbar-width: thin;
   }
 
   .nav-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.65rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .nav-head h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
   }
 
   .close-btn {
@@ -410,54 +591,92 @@
   }
 
   .eyebrow {
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.4rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.74rem;
-    color: #5b7769;
+    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    color: var(--muted);
     font-weight: 700;
   }
 
-  h1 {
-    margin-bottom: 0.6rem;
+  .content h1 {
+    margin-bottom: 0.5rem;
+    animation: content-reveal 0.4s var(--ease-out) both;
   }
 
   .intro {
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    animation: content-reveal 0.4s var(--ease-out) 0.05s both;
+  }
+
+  .content .prose {
+    animation: content-reveal 0.4s var(--ease-out) 0.1s both;
+  }
+
+  @keyframes content-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .doc-footer {
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #d4e4dc;
+    margin-top: 2.25rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--line);
     display: flex;
-    gap: 0.85rem;
+    gap: 1rem;
     justify-content: space-between;
     flex-wrap: wrap;
+    animation: content-reveal 0.4s var(--ease-out) 0.15s both;
+  }
+
+  .doc-footer a {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .doc-footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .toc h3 {
     margin-bottom: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
   }
 
   .toc-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.65rem;
   }
 
   .toc-toggle {
     display: none;
-    border: 1px solid #bed9cc;
-    border-radius: 8px;
-    background: #eff8f3;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--accent-subtle);
     padding: 0.25rem 0.55rem;
-    color: #1c4c3b;
-    font-size: 0.83rem;
+    color: var(--accent);
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
+    transition: background var(--duration-fast);
+  }
+
+  .toc-toggle:hover {
+    background: var(--accent-soft);
   }
 
   .toc ul {
@@ -465,30 +684,53 @@
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.25rem;
+    gap: 0.3rem;
   }
 
   .toc li a {
-    color: #2a4c3e;
-    text-decoration: none;
-    font-size: 0.9rem;
+    display: block;
+    padding: 0.35rem 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.35;
+    transition: color var(--duration-fast);
+    border-radius: 6px;
+    padding-left: 0.5rem;
+    margin-left: -0.5rem;
+  }
+
+  .toc li a:hover {
+    color: var(--accent);
   }
 
   .toc li.level-3 {
-    margin-left: 0.7rem;
+    margin-left: 0.75rem;
+    border-left: 1px solid var(--line);
+    padding-left: 0.6rem;
+    margin-left: 0.5rem;
   }
 
   .backdrop {
     border: 0;
     position: fixed;
     inset: 0;
-    background: rgba(19, 34, 28, 0.4);
+    background: rgba(15, 30, 24, 0.35);
     z-index: 45;
+    animation: backdrop-in 0.2s var(--ease-out);
+  }
+
+  @keyframes backdrop-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   @media (max-width: 1150px) {
     .layout-grid {
-      grid-template-columns: 1fr 270px;
+      grid-template-columns: 1fr 260px;
     }
 
     .left-nav {
@@ -496,10 +738,10 @@
       top: 1rem;
       left: 1rem;
       bottom: 1rem;
-      width: min(85vw, 360px);
+      width: min(88vw, 340px);
       max-height: unset;
-      transform: translateX(-110%);
-      transition: transform 0.2s ease;
+      transform: translateX(-100%);
+      transition: transform var(--duration) var(--ease-out);
       z-index: 60;
     }
 
@@ -513,14 +755,18 @@
   }
 
   @media (max-width: 900px) {
+    .blur-fade {
+      height: calc(0.5rem + 6rem);
+    }
+
     .docs-app {
-      padding: 0.6rem;
+      padding: 0.7rem;
     }
 
     .left-nav,
     .toc,
     .content {
-      padding: 0.75rem;
+      padding: 0.85rem;
     }
 
     .layout-grid {
@@ -538,10 +784,9 @@
     }
 
     .topbar {
-      flex-direction: column;
-      align-items: stretch;
-      top: 0.4rem;
-      padding: 0.55rem;
+      grid-template-columns: 1fr;
+      top: 0.5rem;
+      padding: 0.6rem;
       width: 100%;
     }
 
@@ -551,6 +796,13 @@
 
     .search-results {
       max-height: min(55vh, 320px);
+    }
+
+    .content h1,
+    .intro,
+    .content .prose,
+    .doc-footer {
+      animation: none;
     }
   }
 
@@ -564,11 +816,11 @@
     }
 
     .brand {
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
 
     .search-wrap input {
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
   }
 </style>
