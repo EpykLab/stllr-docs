@@ -1,5 +1,5 @@
 
-fly.toml
 node_modules/
 build/
 .obsidian/
+.svelte-kit
