@@ -1,0 +1,347 @@
+{
+  "main": {
+    "id": "d19663e32e350e4b",
+    "type": "split",
+    "children": [
+      {
+        "id": "aa9d5cf8f872d064",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "54f923ff19be57f7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "marketing/messaging.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "messaging"
+            }
+          },
+          {
+            "id": "e04f4b9bd2996076",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "endpoints/linux/pop/ubuntu pro.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ubuntu pro"
+            }
+          },
+          {
+            "id": "0d6153e957a5f44a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Untitled.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Untitled"
+            }
+          },
+          {
+            "id": "b3b9c5af5e016bef",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Migration Plan.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Migration Plan"
+            }
+          },
+          {
+            "id": "390651c127a85856",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Terms of Service.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Terms of Service"
+            }
+          },
+          {
+            "id": "97da31f89f850ec6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "BAA.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "BAA"
+            }
+          },
+          {
+            "id": "9368da78684e5f83",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Privacy.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Privacy"
+            }
+          },
+          {
+            "id": "6e2d4eccef16c1a4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "blog/intro.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "intro"
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6039dea8cc459ffa",
+    "type": "split",
+    "children": [
+      {
+        "id": "7d284f4e3f7a84f2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "53c705955889d4c8",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "219b7d3e5e1a5f7a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "5ba9862f59cea358",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "cedd16585feb5c45",
+    "type": "split",
+    "children": [
+      {
+        "id": "be37c86e3e386208",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9cc4437022c09a73",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Untitled.canvas",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Untitled"
+            }
+          },
+          {
+            "id": "30d415d089b9e42d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "audit_logging/Logs.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Logs"
+            }
+          },
+          {
+            "id": "8d9620f9d9f05d80",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "26b8d01ce5226f09",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "e9de4196676769c1",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "audit_logging/Logs.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Logs"
+            }
+          },
+          {
+            "id": "c861b682d93bc30f",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 5
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false,
+      "omnisearch:Omnisearch": false
+    }
+  },
+  "active": "b3b9c5af5e016bef",
+  "lastOpenFiles": [
+    "blog/intro.md",
+    "blog",
+    "Privacy.md",
+    "BAA.md",
+    "Terms of Service.md",
+    "Migration Plan.md",
+    "Untitled.md",
+    "marketing/messaging.md",
+    "marketing/creating links to specific variants.md",
+    "engineering/vuln_scanning/Vuln Scanning Tools.md",
+    "engineering/vuln_scanning/Repo to scan.md",
+    "engineering/vuln_scanning/Hosts to scan.md",
+    "engineering/vuln_scanning/computer host vuln scanning.md",
+    "engineering/backups/restoration_processes/Restore PostgreSQL (FLY.IO).md",
+    "data privacy/handling data subject requests/Data Deletion Requests.md",
+    "data privacy/handling data subject requests/Data Copy Requests.md",
+    "endpoints/linux/pop/ubuntu pro.md",
+    "diagrams/data_flow.png",
+    "endpoints/linux/pop/pwquality.md",
+    "endpoints/linux/pop/host agent for SIEM.md",
+    "endpoints/linux/pop/Hardening Overview.md",
+    "external communication/privacy/Updated Privacy Policy Template.md",
+    "diagrams/README.md",
+    "diagrams/trust_portal.png",
+    "diagrams/internal_systems.png",
+    "assets/Pasted image 20251231110744.png",
+    "assets/Pasted image 20251231111033.png",
+    "assets/Pasted image 20251231111333.png",
+    "assets/Pasted image 20251231112128.png",
+    "assets/Pasted image 20251231112550.png",
+    "assets/Pasted image 20260106043232.png",
+    "assets/Pasted image 20260106114656.png",
+    "System Description and Data Flow.md",
+    "engineering/backups/what is getting backed up.md",
+    "engineering/backups/restoration_processes/Restore S3 (transfers).md",
+    "engineering/backups/restoration_processes/Restore S3 (chain-of-custody).md",
+    "engineering/backups/restoration_processes",
+    "engineering/data_loss_prevention/How STLLR Accomplishes DLP.md",
+    "engineering/backups",
+    "fix-me/stllr-dashboard/UI",
+    "fix-me/stllr-dashboard",
+    "fix-me",
+    "product/features.mdVn8Bc4.bck",
+    "product/features.mdEyK9d5.bck",
+    "product/features.mdm2Nmwy.bck",
+    "product/features.mdxCJCDP.bck",
+    "Untitled.canvas"
+  ]
+}

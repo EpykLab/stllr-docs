@@ -1,0 +1,11 @@
+{
+  "editor:open-search": [],
+  "omnisearch:show-modal": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "F"
+    }
+  ]
+}

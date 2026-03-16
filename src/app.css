@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #f4f8f5;
+  --surface: #ffffffd9;
+  --surface-strong: #ffffff;
+  --line: #d6e3dc;
+  --ink: #14211a;
+  --muted: #587062;
+  --accent: #0f7f65;
+  --accent-soft: #c9f0df;
+  --warning: #c5810f;
+  --danger: #bf3f46;
+  --radius: 18px;
+  --shadow: 0 18px 45px -28px rgba(17, 44, 34, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  background:
+    radial-gradient(circle at 8% 7%, #d7efe4 0%, transparent 28%),
+    radial-gradient(circle at 91% 0%, #f4ead6 0%, transparent 30%),
+    linear-gradient(180deg, #f6faf8 0%, #eef5f1 55%, #f8fbf9 100%);
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: var(--accent);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.prose {
+  color: #1c3026;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  margin-top: 1.65rem;
+  margin-bottom: 0.55rem;
+}
+
+.prose h1 {
+  margin-top: 0;
+  font-size: clamp(1.8rem, 3vw, 2.35rem);
+}
+
+.prose h2 {
+  font-size: clamp(1.35rem, 2.3vw, 1.8rem);
+}
+
+.prose p,
+.prose li {
+  font-size: 1rem;
+}
+
+.prose img,
+.prose video,
+.prose iframe {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.prose pre {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #d7e7de;
+  background: #f9fcfa;
+  padding: 0.9rem;
+  margin: 0;
+}
+
+.prose code {
+  border-radius: 7px;
+  background: #eef7f2;
+  padding: 0.08rem 0.35rem;
+}
+
+.prose pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.prose .code-block {
+  margin: 1rem 0;
+  border: 1px solid #c8ddd2;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f9fcfa;
+}
+
+.prose .code-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid #deebe4;
+  background: #edf7f2;
+}
+
+.prose .code-lang {
+  font-size: 0.73rem;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: #345546;
+}
+
+.prose .code-copy-btn {
+  border: 1px solid #b8d3c7;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #205140;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  cursor: pointer;
+}
+
+.prose .code-copy-btn:hover {
+  background: #eff8f3;
+}
+
+.prose .hljs {
+  color: #203126;
+  background: transparent;
+}
+
+.prose .hljs-comment,
+.prose .hljs-quote {
+  color: #587062;
+  font-style: italic;
+}
+
+.prose .hljs-keyword,
+.prose .hljs-selector-tag,
+.prose .hljs-literal,
+.prose .hljs-type {
+  color: #0e7a61;
+}
+
+.prose .hljs-string,
+.prose .hljs-attr,
+.prose .hljs-meta .hljs-string {
+  color: #7e5a00;
+}
+
+.prose .hljs-number,
+.prose .hljs-symbol,
+.prose .hljs-bullet {
+  color: #8d3d48;
+}
+
+.prose .hljs-title,
+.prose .hljs-section,
+.prose .hljs-function .hljs-title {
+  color: #194f88;
+}
+
+.prose blockquote {
+  margin: 1.2rem 0;
+  border-left: 4px solid #9fcab8;
+  padding: 0.1rem 1rem;
+  color: #355547;
+  background: #f4fbf7;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.1rem 0;
+  border: 1px solid #c7ddd2;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  table-layout: auto;
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #deebe4;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* First column (Role): never wrap; size to content so long names (e.g. ServiceAccountAdmin) stay on one line */
+.prose th:first-child,
+.prose td:first-child {
+  white-space: nowrap;
+  min-width: 14rem;
+  width: 1%;
+}
+
+/* Second column: enough room for short labels */
+.prose th:nth-child(2),
+.prose td:nth-child(2) {
+  min-width: 7rem;
+  width: auto;
+}
+
+/* Last column: takes remaining space, wraps as needed */
+.prose th:last-child,
+.prose td:last-child {
+  min-width: 0;
+}
+
+.prose thead th {
+  background: #e8f5ee;
+  color: #184335;
+  font-size: 0.93rem;
+  font-weight: 700;
+}
+
+.prose tbody tr:nth-child(even) {
+  background: #f8fcfa;
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .prose table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Keep first column wide enough for long role names; table scrolls horizontally if needed */
+  .prose th:first-child,
+  .prose td:first-child {
+    min-width: 14rem;
+  }
+
+  .prose pre {
+    font-size: 0.86rem;
+  }
+}
+
+.muted {
+  color: var(--muted);
+}
