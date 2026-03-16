@@ -1,0 +1,20 @@
+{
+	"/": [
+		"src/routes/+page.server.ts"
+	],
+	"/api/docs/chat": [
+		"src/routes/api/docs/chat/+server.ts"
+	],
+	"/api/docs/nav": [
+		"src/routes/api/docs/nav/+server.ts"
+	],
+	"/api/docs/search-index": [
+		"src/routes/api/docs/search-index/+server.ts"
+	],
+	"/docs": [
+		"src/routes/docs/+page.server.ts"
+	],
+	"/docs/[...slug]": [
+		"src/routes/docs/[...slug]/+page.server.ts"
+	]
+}
