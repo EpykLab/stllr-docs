@@ -27,6 +27,24 @@ allowed API routes.
 
 ---
 
+## All roles (complete list)
+
+The following 20 roles have route permissions and can be assigned (or
+assigned automatically) in stellarbridge. Each is described in the
+sections below.
+
+**End-user roles:** OrgUser, TransferUser, UploadUser, StreamUser,
+DriveUser, PartnerUser.
+
+**Admin roles:** GlobalAdmin, OrgUserAdmin, RoleAdmin, PolicyAdmin,
+SurfaceAdmin, SecurityAnalyst, TransferAdmin, NetworkAdmin,
+ServiceAccountAdmin, AgentIdentityAdmin.
+
+**Read-only and special roles:** GlobalReader, DataCustodian,
+AuditLogStreamer, FileRequestedUser.
+
+---
+
 ## Roles at a glance
 
 Use this table to see which role fits which job. Admins assign one or
@@ -71,28 +89,33 @@ more roles to users in the organization.
 
 ## Role reference (summary)
 
+Every role and its Casbin subject. Descriptions match the tables above.
+
 | Role | Casbin subject | Description |
 |------|----------------|-------------|
-| GlobalAdmin | admin | Access to everything. |
-| TransferUser | user:bridge | Upload, download, and manage transfers; streams; bridge operations, reports, analytics. |
-| StreamUser | user:stream | Stream and manage their streams only. |
-| UploadUser | user:upload | Upload and manage their uploads; transfer requests; no streaming. |
+| **End-user roles** | | |
 | OrgUser | user:org | Basic user access plus Drive (granular: list/get policies, notify denial, list identities/projects, object CRUD); no policy/partner/identity/project write. |
+| TransferUser | user:bridge | Upload, download, and manage transfers; streams; bridge operations, reports, analytics. |
+| UploadUser | user:upload | Upload and manage their uploads; transfer requests; no streaming. |
+| StreamUser | user:stream | Stream and manage their streams only. |
+| DriveUser | user:drive | Drive: browse, create folders, upload, download, rename/move, delete, add transfers to Drive; list partners and projects (read-only). |
+| PartnerUser | user:partner | Partner-scoped Drive: create/delete folder, upload/download file; no rename/move or policy routes. |
+| **Admin roles** | | |
+| GlobalAdmin | admin | Access to everything. |
 | OrgUserAdmin | admin:org-user | Delete user accounts; invite and manage org users; create and cancel organization invitations. |
 | RoleAdmin | admin:role | Manage roles assigned to users in the organization. |
 | PolicyAdmin | admin:policy | Full CRUD for policies. |
 | SurfaceAdmin | admin:surface | Full CRUD for partners and projects. |
 | SecurityAnalyst | admin:security | View security reports (org events, transfers). |
-| NetworkAdmin | admin:network | Manage network rules. |
-| DataCustodian | data:custodian | Generate chain-of-custody reports. |
 | TransferAdmin | admin:transfer | Manage transfer org lock and lock-to-org. |
-| FileRequestedUser | anonymous:transfer:file-requested | Anonymous upload for transfer requests. |
+| NetworkAdmin | admin:network | Manage network rules. |
 | ServiceAccountAdmin | admin:service-account | Create and manage service accounts (API keys). |
 | AgentIdentityAdmin | admin:agent-identity | Create, update, delete, and rotate API keys for agent identities. |
-| AuditLogStreamer | audit:streamer | View user and organization audit logs. |
-| PartnerUser | user:partner | Partner-scoped Drive: create/delete folder, upload/download file. |
+| **Read-only and special** | | |
 | GlobalReader | reader:global | Read-only access across routes. |
-| DriveUser | user:drive | Drive user: browse, create folders, upload, download, rename/move, delete, add transfers to Drive. |
+| DataCustodian | data:custodian | Generate chain-of-custody reports. |
+| AuditLogStreamer | audit:streamer | View user and organization audit logs. |
+| FileRequestedUser | anonymous:transfer:file-requested | Anonymous upload for transfer requests (assigned automatically). |
 
 ---
 
