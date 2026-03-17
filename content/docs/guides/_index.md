@@ -7,6 +7,9 @@ guide walks you through one goal.
 
 - [Transfer a file](/docs/guides/transfer/) — Send or receive a file
   (upload or stream)
+- [Using the Stellarbridge MCP](/docs/guides/mcp/) — Use the MCP server
+  with Cursor, Claude, and other agents (Drive, transfers, requests,
+  projects, audit)
 - [Using the Drive](/docs/guides/drive/) — Browse, upload, download,
   share, policies, custody report
 - [Public links](/docs/guides/public-links/) — Public download, drive
