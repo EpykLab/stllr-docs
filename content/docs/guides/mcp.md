@@ -85,7 +85,7 @@ variable is prefixed with `STELLARBRIDGE_`:
 \*Provide either `STELLARBRIDGE_API_KEY` or `STELLARBRIDGE_JWT_TOKEN`, not both.
 
 - **Cloud Stellarbridge:** set `STELLARBRIDGE_API_URL` to
-  `https://api.stellarbridge.io` (or your tenant URL).
+  `https://api.stellarbridge.app` (or your tenant URL).
 - **Self-hosted:** set it to your instance base URL (e.g.
   `https://files.yourcompany.com`).
 
@@ -108,7 +108,7 @@ common clients.
       "command": "stellarbridge-mcp",
       "env": {
         "STELLARBRIDGE_API_KEY": "your_api_key",
-        "STELLARBRIDGE_API_URL": "https://api.stellarbridge.io"
+        "STELLARBRIDGE_API_URL": "https://api.stellarbridge.app"
       }
     }
   }
@@ -125,7 +125,7 @@ Add the server with the CLI:
 ```bash
 claude mcp add stellarbridge \
   -e STELLARBRIDGE_API_KEY=your_api_key \
-  -e STELLARBRIDGE_API_URL=https://api.stellarbridge.io \
+  -e STELLARBRIDGE_API_URL=https://api.stellarbridge.app \
   -- stellarbridge-mcp
 ```
 
@@ -139,7 +139,7 @@ Or add it manually to `~/.claude/mcp.json` (or a project-local
       "command": "stellarbridge-mcp",
       "env": {
         "STELLARBRIDGE_API_KEY": "your_api_key",
-        "STELLARBRIDGE_API_URL": "https://api.stellarbridge.io"
+        "STELLARBRIDGE_API_URL": "https://api.stellarbridge.app"
       }
     }
   }
@@ -168,7 +168,7 @@ Edit `~/.config/opencode/config.json` and add:
         "command": "stellarbridge-mcp",
         "env": {
           "STELLARBRIDGE_API_KEY": "your_api_key",
-          "STELLARBRIDGE_API_URL": "https://api.stellarbridge.io"
+          "STELLARBRIDGE_API_URL": "https://api.stellarbridge.app"
         }
       }
     }
@@ -189,7 +189,7 @@ extensions:
     cmd: stellarbridge-mcp
     env:
       STELLARBRIDGE_API_KEY: your_api_key
-      STELLARBRIDGE_API_URL: https://api.stellarbridge.io
+      STELLARBRIDGE_API_URL: https://api.stellarbridge.app
 ```
 
 Enable it for a session:
@@ -207,7 +207,7 @@ your client to its stdin/stdout:
 
 ```bash
 STELLARBRIDGE_API_KEY=your_api_key \
-STELLARBRIDGE_API_URL=https://api.stellarbridge.io \
+STELLARBRIDGE_API_URL=https://api.stellarbridge.app \
 stellarbridge-mcp
 ```
 
@@ -259,7 +259,7 @@ in **Organization Settings → API Keys** and set `STELLARBRIDGE_API_KEY`
 
 ### Wrong API or empty results
 
-For cloud Stellarbridge use `STELLARBRIDGE_API_URL=https://api.stellarbridge.io`.
+For cloud Stellarbridge use `STELLARBRIDGE_API_URL=https://api.stellarbridge.app`.
 For self-hosted, use your instance’s base URL. Wrong URL often leads to
 connection errors or empty lists.
 
