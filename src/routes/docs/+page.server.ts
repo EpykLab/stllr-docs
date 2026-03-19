@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ url }) => {
     headings: doc.headings,
     tags: doc.tags,
     updatedAt: doc.lastmod,
-    sourcePath: `public-docs/content/docs/${doc.relativePath}`,
+    sourcePath: `content/docs/${doc.relativePath}`,
     canonicalUrl: new URL(doc.canonicalPath, url.origin).toString()
   };
 };
