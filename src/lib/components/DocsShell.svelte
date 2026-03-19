@@ -310,7 +310,7 @@
         {#if updatedAt}
           <p class="muted">Updated {updatedAt}</p>
         {/if}
-        <a href="https://github.com/EpykLab/stllr-docs/blob/main/{sourcePath}" rel="noreferrer" target="_blank">
+        <a href="https://github.com/EpykLab/stllr-docs/blob/master/{sourcePath}" rel="noreferrer" target="_blank">
           Edit this page
         </a>
       </footer>
