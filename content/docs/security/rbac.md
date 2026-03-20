@@ -21,6 +21,10 @@ inside the handler to allow or deny the specific action on that
 resource. Policy cannot bypass RBAC; RBAC cannot be overridden by
 policy.
 
+For how this interacts with **bridge transfers** (uploads that are not yet
+Drive objects) versus **Drive** file and folder policy, see [Bridge transfers
+and Drive access control](/docs/security/bridge-vs-drive-access/).
+
 stellarbridge uses [Casbin](https://casbin.org/) to enforce RBAC. Each
 role has a **Casbin subject** (internal identifier) and a set of
 allowed API routes.

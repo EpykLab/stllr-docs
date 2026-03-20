@@ -26,7 +26,9 @@ by audience so you can find what you need quickly.
   version, and activate policies
 - [Writing policies](/docs/guides/writing-policies/) — Policy document
   structure and examples
-- [Security (RBAC)](/docs/security/rbac/) — Roles and route access
+- [Security (RBAC)](/docs/security/rbac/) — Roles and route access; [bridge
+  vs Drive access](/docs/security/bridge-vs-drive-access/) explains policy
+  scope
 - [Gate approval](/docs/guides/gate-approval/) — Approve GATE requests
 
 **Compliance and legal**
