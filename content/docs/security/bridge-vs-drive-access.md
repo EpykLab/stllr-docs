@@ -32,8 +32,9 @@ After add to Drive:
 
 - The content exists as a **FILE** (or other object type) with a stable
   **object id** in a **project**.
-- Actions such as **RECEIVE** (drop a file into a folder), **DOWNLOAD**,
-  **SHARE_LINK_CREATE** on that file, and other VFS operations are evaluated
+- Actions such as **DRIVE_RECEIVE** (drop a file into a folder),
+  **DRIVE_DOWNLOAD**, **DRIVE_SHARE** on that file, and other VFS operations
+  are evaluated
   against **policies effective for that object** (and identity), in
   addition to RBAC and tenancy.
 
@@ -52,14 +53,22 @@ endpoint.
 4. **Transfer ownership (bridge)** — For some bridge actions, only the
    **sender** recorded on the transfer may act (e.g. share a transfer link by
    email when a sender is stored).
-5. **Resource policy (Drive / VFS)** — For operations on **Drive objects**,
-   the policy engine evaluates **actions** (e.g. RECEIVE, DOWNLOAD,
-   SHARE_LINK_CREATE) against **effective policies** for the **object id**
-   and **identity**, after RBAC.
+5. **Bridge resource policy** — For bridge operations that use the policy
+   engine (e.g. **share transfer by email**), evaluation uses **bridge**
+   actions such as `TRANSFER_SHARE` against the **merged effective policy
+   set** for the organization and identity: **organization-wide (ORG)
+   policy attachments first**, then **identity-scoped** attachments. This
+   path does **not** use a Drive **object id**; it complements RBAC and
+   sender checks, not replace them.
+6. **Resource policy (Drive / VFS)** — For operations on **Drive objects**,
+   the policy engine evaluates **actions** (e.g. DRIVE_RECEIVE,
+   DRIVE_DOWNLOAD, DRIVE_SHARE) against **effective policies** for the
+   **object id** and **identity**, after RBAC.
 
 **Policy does not replace RBAC.** You need a role that can call the route;
 then, for Drive operations, policy can allow or deny the specific action on
-the object.
+the object. The same applies to bridge policy: RBAC must allow the route
+first.
 
 ---
 
@@ -73,20 +82,29 @@ enforce **authentication**, **RBAC** (e.g. transfer-related roles), and
 object id, because **no Drive object exists yet** for that upload.
 
 **Sharing a transfer by email** (sending the public download flow to a
-recipient) is still a **bridge-level** action: it is gated by the same
-layers as other bridge transfer APIs (including **sender match** when a
-sender is recorded), **not** by `SHARE_LINK_CREATE` on a Drive file. Drive
-**file share** (tokenized link to a file in a project) is a **separate**
-flow and **does** use object-scoped policy on the **file**.
+recipient) is a **bridge-level** action. Besides **authentication**, **RBAC**,
+**org/tenancy**, and **sender match** when a sender is stored, the product
+can evaluate **bridge policy**: the engine merges policies attached at
+**organization** scope (including the **seeded bridge default** policy) with
+policies attached directly to the **identity**, and checks the **`TRANSFER_SHARE`**
+action. That is **not** the same as `DRIVE_SHARE` on a Drive **file**
+object. Drive **file share** (tokenized link to a file in a project) is a
+**separate** flow and uses object-scoped policy on the **file**.
+
+Admins govern bridge sharing the same way as other policies: edit **versions**
+of the bridge policy (or identity-attached policies), not by deleting the
+system **bridge default** policy (which is not deletable). See [Managing
+policies](/docs/guides/managing-policies/) and [Writing
+policies](/docs/guides/writing-policies/).
 
 ### Drive: objects, folders, and policies
 
 Once a file exists in Drive:
 
-- **Add transfer to Drive** may evaluate **RECEIVE** (or equivalent) on the
-  **destination folder** so governance applies **when the file is placed**
+- **Add transfer to Drive** may evaluate **DRIVE_RECEIVE** (or equivalent) on
+  the **destination folder** so governance applies **when the file is placed**
   in the tree.
-- **Download, delete, rename, share link to file**, etc. evaluate policy on
+- **Download, delete, rename, Drive share to file**, etc. evaluate policy on
   the relevant **object id** and action.
 
 Policy attachments and inheritance follow the product model described in
@@ -101,15 +119,17 @@ policies](/docs/guides/writing-policies/).
 |------|---------------------------------------------------|--------------|
 | Has `objects` row / folder path? | No | Yes |
 | Folder/file ABAC on object id? | No | Yes, when the handler uses that object |
-| Typical extra checks | Org match, sender for some actions | Policy + project/tenancy resolution |
+| Policy engine for “share”? | **`TRANSFER_SHARE`** on merged **ORG + identity** policies (not `DRIVE_SHARE` on an object) | **`DRIVE_SHARE`** (and other **`DRIVE_*`**) on **object** + identity |
+| Typical extra checks | Org match, sender for some actions; bridge policy when wired | Policy + project/tenancy resolution |
 | “Share” meaning | Email about **transfer** download | **File** share link / policy on FILE |
 
 ---
 
 ## Why this matters for admins and auditors
 
-- **Denials on “share”** depend on **which API** you use: transfer share vs
-  Drive file share use **different** enforcement models.
+- **Denials on “share”** depend on **which API** you use: transfer share
+  uses **bridge** policy (`TRANSFER_SHARE` and org/identity merge); Drive
+  file share uses **object** policy (`DRIVE_SHARE`, etc.).
 - **Global admin** (or other admin roles) still passes **RBAC**, but
   **Drive policy** is evaluated on **identity and object** for VFS
   operations; **admin does not automatically bypass** object policy unless

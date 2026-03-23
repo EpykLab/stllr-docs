@@ -16,21 +16,27 @@ policies](/docs/guides/managing-policies/).
 ## Overview
 
 Access policies are YAML or JSON documents that define allow/deny rules
-for object operations. **Policy evaluation runs only after route-level
-RBAC:** the user must already have permission to call the API route
-(e.g. the drive/object route); then, for that request, the policy
-engine evaluates all policies attached to the object and its ancestors.
-When a user, API client, or agent attempts an action (e.g. list
-children, download, delete), the policy engine evaluates those
-policies. DENY overrides ALLOW; if no statement matches, the action is
-denied. See [RBAC](/docs/security/rbac/) for how roles and route-level
-access work.
+for object operations and, where configured, for **bridge** operations
+(transfer share, etc.). **Policy evaluation runs only after route-level
+RBAC:** the user must already have permission to call the API route; then
+the policy engine evaluates the relevant **effective** policy set.
+
+For **Drive** paths, the engine uses policies attached to the **object**
+and its **ancestor folders**. For **bridge** paths, the engine merges
+**organization-scoped** attachments with **identity-scoped** attachments
+(organization rules first, then identity). DENY overrides ALLOW; if no
+statement matches, the action is denied. See [RBAC](/docs/security/rbac/)
+for how roles and route-level access work, and [Bridge transfers and Drive
+access control](/docs/security/bridge-vs-drive-access/) for the split
+between bridge and Drive.
 
 **Policy lifecycle:**
 1. Create a policy under a partner in the dashboard
 2. Add versions (each version is a policy document)
 3. Activate a version
-4. Attach the policy to objects (folders or files)
+4. Attach the policy where it applies: **Drive** objects (folders or files)
+   for object-scoped policies, or **organization / identity** attachments
+   per product rules (see [Managing policies](/docs/guides/managing-policies/))
 
 ## Document Structure
 
@@ -38,7 +44,7 @@ Every policy document has:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `scope` | Yes | Must be `OBJECT` for drive policies |
+| `scope` | Yes | `OBJECT` for Drive object policies. `IDENTITY` when the **AccessPolicy** record is identity-scoped (including the **bridge default** policy). Must match the policy row in the dashboard. |
 | `statements` | Yes | Array of one or more statements |
 
 Each statement has:
@@ -70,20 +76,69 @@ Valid actions for OBJECT scope:
 
 | Action | Description |
 |--------|-------------|
-| `SEND` | Send/upload into folder |
-| `RECEIVE` | Receive into folder |
-| `DELETE` | Delete object |
-| `DOWNLOAD` | Download file |
-| `STREAM` | Stream file |
-| `LOCK` | Lock object |
-| `FREEZE` | Freeze object |
-| `CHANGE_ACCESS` | Change policy attachments, view attachments |
-| `RENAME` | Rename object |
-| `MOVE` | Move object |
-| `COPY` | Copy object |
-| `SHARE_LINK_CREATE` | Create share link |
-| `SHARE_LINK_REVOKE` | Revoke share link |
-| `LIST_CHILDREN` | List folder contents, create children |
+| `DRIVE_SEND` | Send/upload into folder |
+| `DRIVE_RECEIVE` | Receive into folder |
+| `DRIVE_DELETE` | Delete object |
+| `DRIVE_DOWNLOAD` | Download file |
+| `DRIVE_STREAM` | Stream file |
+| `DRIVE_LOCK` | Lock object |
+| `DRIVE_FREEZE` | Freeze object |
+| `DRIVE_CHANGE_ACCESS` | Change policy attachments, view attachments |
+| `DRIVE_RENAME` | Rename object |
+| `DRIVE_MOVE` | Move object |
+| `DRIVE_COPY` | Copy object |
+| `DRIVE_SHARE` | Share a Drive file (email recipient) |
+| `DRIVE_SHARE_REVOKE` | Revoke a Drive share |
+| `DRIVE_LIST_CHILDREN` | List folder contents, create children |
+
+### Bridge actions
+
+**IDENTITY-scoped policy documents.** Use these in policies evaluated on
+**bridge** flows (not on a Drive `object_id`). The document **`scope`**
+must match the **AccessPolicy** row (for the seeded **bridge default**,
+that is **`IDENTITY`**). Effective rules combine **organization**
+attachments first, then **identity** attachments.
+
+The **Stellarbridge bridge (default)** policy is seeded with **version 1**
+equivalent to the example below (ALLOW **`TRANSFER_SEND`**, **`TRANSFER_SHARE`**,
+**`TRANSFER_DELETE`**, **`TRANSFER_LOCK`**, and **`TRANSFER_READ`** for UPN, API,
+and AGENT).
+
+| Action | Description |
+|--------|-------------|
+| `TRANSFER_SEND` | Create or send a bridge transfer (e.g. multipart upload, transfer request) |
+| `TRANSFER_SHARE` | Share a **transfer** with a recipient (e.g. email the transfer download flow). Not the same as **`DRIVE_SHARE`** on a Drive file. |
+| `TRANSFER_DELETE` | Delete a bridge transfer or transfer request |
+| `TRANSFER_LOCK` | Lock, protect, or apply org lock on bridge transfers |
+| `TRANSFER_READ` | List or view transfer metadata (e.g. API **GET /transfers**, transfer request lookup) |
+
+Example (matches the seeded bridge default):
+
+```yaml
+scope: IDENTITY
+statements:
+  - sid: bridge_default_allow
+    effect: ALLOW
+    subjects:
+      identity_types:
+        - UPN
+        - API
+        - AGENT
+    actions:
+      - TRANSFER_SEND
+      - TRANSFER_SHARE
+      - TRANSFER_DELETE
+      - TRANSFER_LOCK
+      - TRANSFER_READ
+```
+
+### Migrating from legacy action names
+
+Stored policy versions may still list **unprefixed** verbs (`DOWNLOAD`,
+`LIST_CHILDREN`, …) or **`SHARE_LINK_*`**. Those names are **deprecated**:
+use **`DRIVE_*`** for **OBJECT** scope (Drive / VFS) and **`TRANSFER_*`** for
+**IDENTITY** bridge policies. Edit the document, create a **new version**,
+validate, then **activate** it (and update attachments if needed).
 
 ## Effects
 
@@ -108,20 +163,20 @@ statements:
         - API
         - AGENT
     actions:
-      - SEND
-      - RECEIVE
-      - DELETE
-      - DOWNLOAD
-      - STREAM
-      - LOCK
-      - FREEZE
-      - CHANGE_ACCESS
-      - RENAME
-      - MOVE
-      - COPY
-      - SHARE_LINK_CREATE
-      - SHARE_LINK_REVOKE
-      - LIST_CHILDREN
+      - DRIVE_SEND
+      - DRIVE_RECEIVE
+      - DRIVE_DELETE
+      - DRIVE_DOWNLOAD
+      - DRIVE_STREAM
+      - DRIVE_LOCK
+      - DRIVE_FREEZE
+      - DRIVE_CHANGE_ACCESS
+      - DRIVE_RENAME
+      - DRIVE_MOVE
+      - DRIVE_COPY
+      - DRIVE_SHARE
+      - DRIVE_SHARE_REVOKE
+      - DRIVE_LIST_CHILDREN
 ```
 
 ### 2. Allow downloads only for specific email
@@ -137,7 +192,7 @@ statements:
       identity_emails:
         - owner@example.com
     actions:
-      - DOWNLOAD
+      - DRIVE_DOWNLOAD
 ```
 
 ### 3. Allow list and download for a group
@@ -153,8 +208,8 @@ statements:
       group_names:
         - readers
     actions:
-      - LIST_CHILDREN
-      - DOWNLOAD
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_DOWNLOAD
 ```
 
 ### 4. Deny delete for everyone
@@ -172,7 +227,7 @@ statements:
         - API
         - AGENT
     actions:
-      - DELETE
+      - DRIVE_DELETE
 ```
 
 ### 5. Allow uploads for API only
@@ -188,8 +243,8 @@ statements:
       identity_types:
         - API
     actions:
-      - SEND
-      - LIST_CHILDREN
+      - DRIVE_SEND
+      - DRIVE_LIST_CHILDREN
 ```
 
 ### 6. Allow users but deny API for sensitive folder
@@ -205,16 +260,16 @@ statements:
       identity_types:
         - UPN
     actions:
-      - LIST_CHILDREN
-      - DOWNLOAD
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_DOWNLOAD
   - sid: deny-api
     effect: DENY
     subjects:
       identity_types:
         - API
     actions:
-      - LIST_CHILDREN
-      - DOWNLOAD
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_DOWNLOAD
 ```
 
 ### 7. Multiple emails with full access
@@ -232,15 +287,15 @@ statements:
         - bob@example.com
         - carol@example.com
     actions:
-      - SEND
-      - RECEIVE
-      - DELETE
-      - DOWNLOAD
-      - LIST_CHILDREN
-      - RENAME
-      - MOVE
-      - COPY
-      - CHANGE_ACCESS
+      - DRIVE_SEND
+      - DRIVE_RECEIVE
+      - DRIVE_DELETE
+      - DRIVE_DOWNLOAD
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_RENAME
+      - DRIVE_MOVE
+      - DRIVE_COPY
+      - DRIVE_CHANGE_ACCESS
 ```
 
 ### 8. View-only for external partners
@@ -256,9 +311,9 @@ statements:
       group_names:
         - external-partners
     actions:
-      - LIST_CHILDREN
-      - DOWNLOAD
-      - STREAM
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_DOWNLOAD
+      - DRIVE_STREAM
 ```
 
 ### 9. Editors can modify, others read-only
@@ -274,24 +329,24 @@ statements:
       group_names:
         - editors
     actions:
-      - SEND
-      - RECEIVE
-      - DELETE
-      - DOWNLOAD
-      - LIST_CHILDREN
-      - RENAME
-      - MOVE
-      - COPY
-      - CHANGE_ACCESS
+      - DRIVE_SEND
+      - DRIVE_RECEIVE
+      - DRIVE_DELETE
+      - DRIVE_DOWNLOAD
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_RENAME
+      - DRIVE_MOVE
+      - DRIVE_COPY
+      - DRIVE_CHANGE_ACCESS
   - sid: allow-viewers
     effect: ALLOW
     subjects:
       group_names:
         - viewers
     actions:
-      - LIST_CHILDREN
-      - DOWNLOAD
-      - STREAM
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_DOWNLOAD
+      - DRIVE_STREAM
 ```
 
 ### 10. Block share links for confidential data
@@ -308,15 +363,15 @@ statements:
         - UPN
         - API
     actions:
-      - SEND
-      - RECEIVE
-      - DELETE
-      - DOWNLOAD
-      - LIST_CHILDREN
-      - RENAME
-      - MOVE
-      - COPY
-      - CHANGE_ACCESS
+      - DRIVE_SEND
+      - DRIVE_RECEIVE
+      - DRIVE_DELETE
+      - DRIVE_DOWNLOAD
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_RENAME
+      - DRIVE_MOVE
+      - DRIVE_COPY
+      - DRIVE_CHANGE_ACCESS
   - sid: deny-share-links
     effect: DENY
     subjects:
@@ -325,8 +380,8 @@ statements:
         - API
         - AGENT
     actions:
-      - SHARE_LINK_CREATE
-      - SHARE_LINK_REVOKE
+      - DRIVE_SHARE
+      - DRIVE_SHARE_REVOKE
 ```
 
 ### 11. Risk approvers download only
@@ -342,9 +397,9 @@ statements:
       group_names:
         - risk-approvers
     actions:
-      - DOWNLOAD
-      - STREAM
-      - LIST_CHILDREN
+      - DRIVE_DOWNLOAD
+      - DRIVE_STREAM
+      - DRIVE_LIST_CHILDREN
 ```
 
 ### 12. Admin-only policy management
@@ -361,21 +416,21 @@ statements:
         - UPN
         - API
     actions:
-      - SEND
-      - RECEIVE
-      - DELETE
-      - DOWNLOAD
-      - LIST_CHILDREN
-      - RENAME
-      - MOVE
-      - COPY
+      - DRIVE_SEND
+      - DRIVE_RECEIVE
+      - DRIVE_DELETE
+      - DRIVE_DOWNLOAD
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_RENAME
+      - DRIVE_MOVE
+      - DRIVE_COPY
   - sid: allow-admins-access-control
     effect: ALLOW
     subjects:
       group_names:
         - admins
     actions:
-      - CHANGE_ACCESS
+      - DRIVE_CHANGE_ACCESS
 ```
 
 ### 13. Lock and freeze restricted to custodians
@@ -391,8 +446,8 @@ statements:
       group_names:
         - data-custodians
     actions:
-      - LOCK
-      - FREEZE
+      - DRIVE_LOCK
+      - DRIVE_FREEZE
   - sid: allow-others-normal
     effect: ALLOW
     subjects:
@@ -400,15 +455,15 @@ statements:
         - UPN
         - API
     actions:
-      - SEND
-      - RECEIVE
-      - DELETE
-      - DOWNLOAD
-      - LIST_CHILDREN
-      - RENAME
-      - MOVE
-      - COPY
-      - CHANGE_ACCESS
+      - DRIVE_SEND
+      - DRIVE_RECEIVE
+      - DRIVE_DELETE
+      - DRIVE_DOWNLOAD
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_RENAME
+      - DRIVE_MOVE
+      - DRIVE_COPY
+      - DRIVE_CHANGE_ACCESS
 ```
 
 ### 14. Deny move and rename for shared folder
@@ -425,13 +480,13 @@ statements:
         - UPN
         - API
     actions:
-      - SEND
-      - RECEIVE
-      - DELETE
-      - DOWNLOAD
-      - LIST_CHILDREN
-      - COPY
-      - CHANGE_ACCESS
+      - DRIVE_SEND
+      - DRIVE_RECEIVE
+      - DRIVE_DELETE
+      - DRIVE_DOWNLOAD
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_COPY
+      - DRIVE_CHANGE_ACCESS
   - sid: deny-structure
     effect: DENY
     subjects:
@@ -440,8 +495,8 @@ statements:
         - API
         - AGENT
     actions:
-      - RENAME
-      - MOVE
+      - DRIVE_RENAME
+      - DRIVE_MOVE
 ```
 
 ### 15. Allow copy but not delete
@@ -458,10 +513,10 @@ statements:
         - UPN
         - API
     actions:
-      - DOWNLOAD
-      - STREAM
-      - COPY
-      - LIST_CHILDREN
+      - DRIVE_DOWNLOAD
+      - DRIVE_STREAM
+      - DRIVE_COPY
+      - DRIVE_LIST_CHILDREN
   - sid: deny-delete
     effect: DENY
     subjects:
@@ -470,7 +525,7 @@ statements:
         - API
         - AGENT
     actions:
-      - DELETE
+      - DRIVE_DELETE
 ```
 
 ### 16. Agents can only receive
@@ -486,8 +541,8 @@ statements:
       identity_types:
         - AGENT
     actions:
-      - RECEIVE
-      - LIST_CHILDREN
+      - DRIVE_RECEIVE
+      - DRIVE_LIST_CHILDREN
 ```
 
 ### 17. Audit-readers view-only with stream
@@ -503,9 +558,9 @@ statements:
       group_names:
         - audit-readers
     actions:
-      - LIST_CHILDREN
-      - DOWNLOAD
-      - STREAM
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_DOWNLOAD
+      - DRIVE_STREAM
 ```
 
 ### 18. Contractors limited upload and list
@@ -521,8 +576,8 @@ statements:
       group_names:
         - contractors
     actions:
-      - SEND
-      - LIST_CHILDREN
+      - DRIVE_SEND
+      - DRIVE_LIST_CHILDREN
 ```
 
 ### 19. Finance team full access, others denied
@@ -538,20 +593,20 @@ statements:
       group_names:
         - finance-team
     actions:
-      - SEND
-      - RECEIVE
-      - DELETE
-      - DOWNLOAD
-      - STREAM
-      - LOCK
-      - FREEZE
-      - CHANGE_ACCESS
-      - RENAME
-      - MOVE
-      - COPY
-      - SHARE_LINK_CREATE
-      - SHARE_LINK_REVOKE
-      - LIST_CHILDREN
+      - DRIVE_SEND
+      - DRIVE_RECEIVE
+      - DRIVE_DELETE
+      - DRIVE_DOWNLOAD
+      - DRIVE_STREAM
+      - DRIVE_LOCK
+      - DRIVE_FREEZE
+      - DRIVE_CHANGE_ACCESS
+      - DRIVE_RENAME
+      - DRIVE_MOVE
+      - DRIVE_COPY
+      - DRIVE_SHARE
+      - DRIVE_SHARE_REVOKE
+      - DRIVE_LIST_CHILDREN
 ```
 
 ### 20. Read-only audit trail folder
@@ -568,9 +623,9 @@ statements:
         - auditors
         - compliance-officers
     actions:
-      - LIST_CHILDREN
-      - DOWNLOAD
-      - STREAM
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_DOWNLOAD
+      - DRIVE_STREAM
 ```
 
 ### 21. Mixed identity types and groups
@@ -588,10 +643,10 @@ statements:
       group_names:
         - sync-service
     actions:
-      - SEND
-      - RECEIVE
-      - DOWNLOAD
-      - LIST_CHILDREN
+      - DRIVE_SEND
+      - DRIVE_RECEIVE
+      - DRIVE_DOWNLOAD
+      - DRIVE_LIST_CHILDREN
 ```
 
 ### 22. Revoke share links only for admins
@@ -608,16 +663,16 @@ statements:
         - UPN
         - API
     actions:
-      - SHARE_LINK_CREATE
-      - LIST_CHILDREN
-      - DOWNLOAD
+      - DRIVE_SHARE
+      - DRIVE_LIST_CHILDREN
+      - DRIVE_DOWNLOAD
   - sid: allow-admins-revoke
     effect: ALLOW
     subjects:
       group_names:
         - admins
     actions:
-      - SHARE_LINK_REVOKE
+      - DRIVE_SHARE_REVOKE
 ```
 
 ### 23. JSON format example
@@ -634,7 +689,7 @@ Policies can also be written in JSON.
       "subjects": {
         "identity_emails": ["reviewer@example.com"]
       },
-      "actions": ["DOWNLOAD", "STREAM", "LIST_CHILDREN"]
+      "actions": ["DRIVE_DOWNLOAD", "DRIVE_STREAM", "DRIVE_LIST_CHILDREN"]
     }
   ]
 }
