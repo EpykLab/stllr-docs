@@ -38,7 +38,7 @@ download a file from the Drive without logging in.
    the file is downloaded.
 
 No login is required. Share links are subject to policy (e.g.
-SHARE_LINK_CREATE) and can be revoked.
+`DRIVE_SHARE`) and can be revoked.
 
 ## Public upload
 
