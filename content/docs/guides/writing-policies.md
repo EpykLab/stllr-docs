@@ -31,7 +31,8 @@ access control](/docs/security/bridge-vs-drive-access/) for the split
 between bridge and Drive.
 
 **Policy lifecycle:**
-1. Create a policy under a partner in the dashboard
+1. Create a policy in the dashboard under the **organization catalog** or a
+   **partner catalog** (see [Managing policies](/docs/guides/managing-policies/))
 2. Add versions (each version is a policy document)
 3. Activate a version
 4. Attach the policy where it applies: **Drive** objects (folders or files)

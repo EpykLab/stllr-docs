@@ -72,8 +72,8 @@ more roles to users in the organization.
 | **GlobalAdmin** | Full platform control | Access to all API routes. Use sparingly. |
 | **OrgUserAdmin** | User lifecycle in the org | Invite users to the organization; create and cancel organization invitations; list, add, and remove org users; delete user accounts. Cannot delete projects. |
 | **RoleAdmin** | Assigning roles | List org roles; get, add, or remove roles for a user (by email). Cannot change org settings or manage content. |
-| **PolicyAdmin** | Policy management | Full CRUD for policies: list, create, get, update, delete, versions, activate, export, import, evaluate, notify policy denial. |
-| **SurfaceAdmin** | Partners and projects | Full CRUD for partners and projects: list, create, delete partners; list, create, update, revoke partner identities; list, create, update partners on projects, delete projects. |
+| **PolicyAdmin** | Policy management | Full CRUD for policies: list (org-wide), create under **organization** or **partner** catalog, get, update, delete, versions, activate, export, import, evaluate, notify policy denial. |
+| **SurfaceAdmin** | Partners and projects | Full CRUD for partners and projects: list, create, delete partners; list, create, update, revoke partner identities; list and create projects (**organization-only** or **partner-scoped**); update partners on partner-scoped projects; delete projects. |
 | **SecurityAnalyst** | Read-only security view | View organization events and organization transfers. No write access. |
 | **TransferAdmin** | Transfer governance | Set organization transfer lock status (POST/DELETE); toggle lock-to-org for transfers. |
 | **NetworkAdmin** | Network restrictions | List, create, update, and delete network rules for the organization. |

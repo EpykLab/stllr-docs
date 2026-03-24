@@ -29,10 +29,10 @@ documented.
 
 | Feature | Description | Documentation |
 | --------| ----------- | -------------- |
-| Policies | List, create, view, update, delete; versions; activate; export/import; policy evaluate | [Managing policies](/docs/guides/managing-policies/), [Writing policies](/docs/guides/writing-policies/) |
+| Policies | List (org-wide, including org-catalog and partner-catalog policies); create under org or partner catalog; view, update, delete; versions; activate; export/import; policy evaluate | [Managing policies](/docs/guides/managing-policies/), [Writing policies](/docs/guides/writing-policies/) |
 | Groups | List, create, view, update, delete groups; manage group members (identities) | Dashboard Policies / Groups |
 | Partners | List, create, delete partners | Dashboard Partners |
-| Projects | List (org or by partner); create; update project partners; delete | Dashboard Projects |
+| Projects | List (org-wide: org-only projects and partner-linked projects); create org-only or with partners; update partners on partner-scoped projects only; delete | Dashboard Projects |
 | Identities | List, create, update, delete identities; rotate API key; policy attachments on identity | Dashboard Identities |
 
 ## Organization and settings
@@ -91,8 +91,9 @@ High-level flows that combine the features above:
 - **Manage transfers** — Transfers → history and requests →
   protect/unprotect, delete transfer, lock-to-org, delete request,
   custody report.
-- **Manage policies** — Policies → filter by partner → create policy,
-  edit versions, activate version, export/import, run evaluate.
+- **Manage policies** — Policies → filter by catalog (organization or
+  partner) → create policy, edit versions, activate version, export/import,
+  run evaluate.
 - **Manage organization** — Organization → users and invites; org
   settings (SAML, password rules, etc.); RBAC; data custodians;
   network rules.

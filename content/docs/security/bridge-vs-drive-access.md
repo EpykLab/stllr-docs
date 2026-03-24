@@ -111,6 +111,23 @@ Policy attachments and inheritance follow the product model described in
 [Managing policies](/docs/guides/managing-policies/) and [Writing
 policies](/docs/guides/writing-policies/).
 
+### Projects: partner-scoped vs organization-only
+
+A **project** is either **partner-scoped** (linked to one or more partners)
+or **organization-only** (no partners; linked to the organization
+directly). The two modes are not mixed on a single project.
+
+- **Partner-scoped** — Use when work involves a counterparty; Drive tenancy
+  resolves organization and partner for policy evaluation and storage paths.
+- **Organization-only** — Use for internal or org-only work without a
+  partner; policy evaluation still resolves the organization, and **group**
+  resolution in policy uses **org-wide** groups (no partner-scoped groups
+  for that project context).
+
+Attach **OBJECT**-scoped policies from the **organization catalog** to
+**files and folders** in organization-only projects; use **partner-catalog**
+policies for projects that include that partner.
+
 ---
 
 ## Comparison table

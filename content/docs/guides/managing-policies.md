@@ -16,35 +16,44 @@ transfers and Drive access control](/docs/security/bridge-vs-drive-access/).
 
 ## Prerequisites
 
-- Access to the dashboard with permission to manage policies (e.g. under
-  a partner or org). Typically an admin or role with policy management.
+- Access to the dashboard with permission to manage policies (organization
+  or partner catalog). Typically an admin or **PolicyAdmin** (see
+  [RBAC](/docs/security/rbac/)).
 
 ## List policies
 
 1. Open **Policies** in the dashboard.
-2. Optionally filter by **organization** or **partner** to see only
-   policies in scope.
+2. Use filters to narrow the list: **partner** (per counterparty), or
+   **Organization** for policies stored in the **organization catalog** (no
+   partner row).
 3. Use the list to open a policy, create a new one, or manage
    versions.
 
 ### Bridge default (system-managed)
 
-The **bridge default** is a single **AccessPolicy** (per partner) that holds
-the rules for **bridge** actions such as **`TRANSFER_SHARE`**. In the
-Policies list it appears as **Stellarbridge bridge (default)** (or similar)
-and may show a **Bridge default** badge. The row is marked **system-managed**:
-you **cannot delete** it from the API or UI.
+The **bridge default** is a single **AccessPolicy** per organization that
+holds the rules for **bridge** actions such as **`TRANSFER_SHARE`**. The
+storage anchor differs by whether the org has any partners:
+
+- **Organization has at least one partner** — The policy document is stored
+  under a **partner** catalog (low partner id used as anchor); the same
+  bridge rules apply org-wide via **ORG** attachments.
+- **Organization has no partners** — The policy is stored in the
+  **organization catalog** (no partner FK). Bridge evaluation is unchanged:
+  **ORG** attachments still apply the default to every identity in the org.
+
+In the Policies list it appears as **Stellarbridge bridge (default)** (or
+similar) and may show a **Bridge default** badge. The row is marked
+**system-managed**: you **cannot delete** it from the API or UI.
 
 **How it relates to organizations**
 
-- The policy document lives under a **partner** (same policy can be shared
-  by many organizations that use that partner).
 - Each organization gets an **organization-scoped (ORG) attachment** to
-  that policy so bridge checks apply to **every identity in the org**,
+  this policy so bridge checks apply to **every identity in the org**,
   without a separate Settings toggle.
-- If an organization has **no partner** yet, seeding waits until a partner
-  exists; the platform runs the same **ensure** step when you create an
-  org, when a partner is linked, or when a bridge flow needs the policy.
+- The platform runs an **ensure** step when you create a partner, when a
+  bridge flow needs the policy, or when the org has no partners (org-catalog
+  seed).
 
 **What the first version contains**
 
@@ -71,12 +80,20 @@ you **cannot delete** it from the API or UI.
 ## Create a policy
 
 1. In **Policies**, choose **Create policy** (or equivalent).
-2. Name the policy and associate it with the correct partner/org as
-   required.
+2. Choose the **catalog**: **Organization (no partner)** for an
+   **organization-catalog** policy, or select a **partner** for a
+   **partner-catalog** policy. You cannot mix both on one policy row.
 3. Add a **version**: paste or upload a policy document (YAML or JSON)
    that follows the [OBJECT scope
    structure](/docs/guides/writing-policies/#document-structure).
 4. Save. The new version is not active until you activate it.
+
+**Drive (OBJECT) attachments:** Org-catalog policies can be attached to
+objects in **organization-only** projects (projects with no partners, tied
+to the org). Partner-catalog policies attach to objects in projects that
+include that partner. You cannot attach a partner-catalog policy to an
+org-only project, or an org-catalog policy to a partner-scoped project, when
+the org/partner does not match.
 
 ## Versions and activate
 

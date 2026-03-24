@@ -113,6 +113,7 @@ For user/admin workflows and controls, see: File uploads and File streaming.
 * Security-relevant events (e.g., login success/failure) are logged with timestamps and context (such as IP). Logs are written asynchronously by the app to improve reliability.
 * Central error handling prevents sensitive details from being returned to clients while still capturing structured diagnostics in logs.
 * Abuse protection: API routes are rate limited by default (approximately 30 requests per 15 seconds per client). Static assets are not rate limited.
+* Request filtering: the app can run an OWASP CRS–based Web Application Firewall (e.g. Coraza) in front of handlers. Rule sets include **custom exclusions** for policy authoring routes (`/api/v1/policies`, partner policy routes, and related paths) so JSON policy bodies (keywords such as `ALLOW`, `CHANGE_ACCESS`, etc.) do not trigger false-positive SQL-injection blocks.
 
 Access to audit logs is provided at all subscription levels.
 
