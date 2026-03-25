@@ -65,10 +65,13 @@ break when the agents showed up.
   [project](/docs/guides/drive/), upload and download, attach policies,
   and generate custody reports. See [Using the
   Drive](/docs/guides/drive/).
-- **Projects** — Top-level containers in the Drive; often aligned to
-  partners or internal teams.
+- **Projects** — Top-level containers in the Drive. A project is either
+  **partner-scoped** (one or more partners) or **organization-only** (no
+  partners, tied to the org). Internal work can use org-only projects.
 - **Partners** — External organizations or parties you share with or
-  receive from; policies and projects can be scoped by partner.
+  receive from. **Policies** can live in the **organization catalog** or
+  under a **partner catalog**; **projects** can be scoped by partner or be
+  org-only.
 
 **Governance**
 
