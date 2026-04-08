@@ -165,7 +165,13 @@ Edit `~/.config/opencode/config.json` and add:
   "mcp": {
     "servers": {
       "stellarbridge": {
-        "command": "stellarbridge-mcp",
+        "type": "local",
+        "command": [
+          "uv",
+          "tool",
+          "run",
+          "stellarbridge-mcp"
+        ],
         "env": {
           "STELLARBRIDGE_API_KEY": "your_api_key",
           "STELLARBRIDGE_API_URL": "https://api.stellarbridge.app"
