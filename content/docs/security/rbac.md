@@ -33,7 +33,7 @@ allowed API routes.
 
 ## All roles (complete list)
 
-The following 20 roles have route permissions and can be assigned (or
+The following 22 roles have route permissions and can be assigned (or
 assigned automatically) in stellarbridge. Each is described in the
 sections below.
 
@@ -46,6 +46,8 @@ ServiceAccountAdmin, AgentIdentityAdmin.
 
 **Read-only and special roles:** GlobalReader, DataCustodian,
 AuditLogStreamer, FileRequestedUser.
+
+**Machine identity roles:** ApiAgent, StorageMigration.
 
 ---
 
@@ -89,6 +91,13 @@ more roles to users in the organization.
 | **AuditLogStreamer** | Viewing audit logs | View user event logs and organization audit logs. No other admin or content access. |
 | **FileRequestedUser** | Anonymous recipients | Assigned automatically when someone uses a transfer-request upload link. Allows only the multipart-upload and URL-info routes needed to fulfill the request. Not assigned in the dashboard. |
 
+### Machine identity roles (automation / integration)
+
+| Role | Best for | What they can do |
+|------|----------|------------------|
+| **ApiAgent** | API key automation (MCP, scripts) | Access to `/api/v1` bridge, transfers, logs, projects, and VFS routes via X-API-Key. No policy-attachment mutations. Assigned automatically to API key identities. |
+| **StorageMigration** | External storage import | Bridge multipart upload, Drive object CRUD, partner and project management. Machine identity for importing from external storage. |
+
 ---
 
 ## Role reference (summary)
@@ -120,6 +129,9 @@ Every role and its Casbin subject. Descriptions match the tables above.
 | DataCustodian | data:custodian | Generate chain-of-custody reports. |
 | AuditLogStreamer | audit:streamer | View user and organization audit logs. |
 | FileRequestedUser | anonymous:transfer:file-requested | Anonymous upload for transfer requests (assigned automatically). |
+| **Machine identity roles** | | |
+| ApiAgent | agent:api | API key agent (MCP/automation) — explicit /api/v1 allowlist via X-API-Key; no policy-attachment mutations. |
+| StorageMigration | agent:storage-migration | Machine identity for importing from external storage (bridge multipart, Drive, partners, projects). |
 
 ---
 

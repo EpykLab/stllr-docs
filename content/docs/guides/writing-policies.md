@@ -54,22 +54,55 @@ Each statement has:
 |-------|----------|-------------|
 | `sid` | Yes | Unique identifier (e.g. `allow-download`, `deny-delete`) |
 | `effect` | Yes | `ALLOW`, `DENY`, or `GATE` |
-| `subjects` | Yes | Who the statement applies to |
+| `subjects` | Yes | Who the statement applies to (via `principal_srns`) |
 | `actions` | Yes | Array of action strings the statement applies to |
 
 ## Subjects
 
-Subjects define *who* the statement matches. At least one of `identity_types`, `identities`, `groups`, `group_names`, or `identity_emails` must be non-empty. Matching is OR: if the identity matches any subject criterion, the statement applies.
+Subjects define *who* the statement matches through **principal SRNs**
+(Stellar Resource Names). Each statement's `subjects` block must
+contain `principal_srns` with at least one entry. Matching is OR: if
+the identity matches any principal SRN, the statement applies.
 
 | Subject field | Type | Description |
 |---------------|------|-------------|
-| `identity_types` | `["UPN", "API", "AGENT"]` | Match by identity type. UPN = user, API = API key, AGENT = automated agent |
-| `identity_emails` | `["alice@example.com"]` | Match by email (case-insensitive) |
-| `group_names` | `["risk-approvers"]` | Match by group name (resolved at evaluation) |
-| `groups` | `[5, 7]` | Match by group ID |
-| `identities` | `[100, 101]` | Match by identity ID |
+| `principal_srns` | `["*"]` or SRN array | Array of IAM SRN strings. Use `"*"` to match any identity. Use specific SRNs to match identities or groups. |
 
-**To match everyone:** use `identity_types: [UPN, API, AGENT]`.
+### SRN format
+
+Principal SRNs follow the format:
+
+```
+stllr:iam:{type}:{hash}:{name}
+```
+
+| Component | Description |
+|-----------|-------------|
+| `stllr` | Root prefix (always `stllr`) |
+| `iam` | Resource group (always `iam`) |
+| `{type}` | Resource type: `upn` (user), `api` (API key), `agent` (agent), `group` (group), `user` (user entity) |
+| `{hash}` | 32-character hex hash (globally unique) |
+| `{name}` | Human-readable name or email |
+
+**Examples:**
+
+- `stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:alice@example.com` — a UPN identity
+- `stllr:iam:api:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:service-account` — an API key identity
+- `stllr:iam:agent:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:backup-agent` — an agent identity
+- `stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:readers` — a group
+
+**To match everyone:** use `principal_srns: ["*"]`.
+
+**Finding SRNs:** Use the dashboard or API to look up the SRN for an
+identity or group before authoring a policy. SRNs are stable and
+globally unique.
+
+### Deprecated fields
+
+The older subject fields (`identity_types`, `identity_emails`,
+`group_names`, `groups`, `identities`) are deprecated. They are
+silently ignored by the policy engine and no longer affect matching.
+Migrate existing policies to `principal_srns`.
 
 ## Actions
 
@@ -102,8 +135,8 @@ attachments first, then **identity** attachments.
 
 The **Stellarbridge bridge (default)** policy is seeded with **version 1**
 equivalent to the example below (ALLOW **`TRANSFER_SEND`**, **`TRANSFER_SHARE`**,
-**`TRANSFER_DELETE`**, **`TRANSFER_LOCK`**, and **`TRANSFER_READ`** for UPN, API,
-and AGENT).
+**`TRANSFER_DELETE`**, **`TRANSFER_LOCK`**, **`TRANSFER_READ`**, and
+**`TRANSFER_STREAM`** for all identities).
 
 | Action | Description |
 |--------|-------------|
@@ -112,6 +145,7 @@ and AGENT).
 | `TRANSFER_DELETE` | Delete a bridge transfer or transfer request |
 | `TRANSFER_LOCK` | Lock, protect, or apply org lock on bridge transfers |
 | `TRANSFER_READ` | List or view transfer metadata (e.g. API **GET /transfers**, transfer request lookup) |
+| `TRANSFER_STREAM` | Stream a bridge transfer (used by streaming flows) |
 
 Example (matches the seeded bridge default):
 
@@ -121,16 +155,15 @@ statements:
   - sid: bridge_default_allow
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
-        - API
-        - AGENT
+      principal_srns:
+        - "*"
     actions:
       - TRANSFER_SEND
       - TRANSFER_SHARE
       - TRANSFER_DELETE
       - TRANSFER_LOCK
       - TRANSFER_READ
+      - TRANSFER_STREAM
 ```
 
 ### Migrating from legacy action names
@@ -145,13 +178,15 @@ validate, then **activate** it (and update attachments if needed).
 
 - **ALLOW** – Permit the action
 - **DENY** – Block the action (takes precedence over ALLOW)
-- **GATE** – Require admin approval before action proceeds
+- **GATE** – Require admin approval before action proceeds. In v1,
+  only **`DRIVE_SHARE`** and **`TRANSFER_SHARE`** automatically replay
+  after approval; other gated actions require manual retry.
 
 ## Examples
 
 ### 1. Allow all for everyone
 
-Permit all actions for all identity types.
+Permit all actions for all identities.
 
 ```yaml
 scope: OBJECT
@@ -159,10 +194,8 @@ statements:
   - sid: allow-all
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
-        - API
-        - AGENT
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_SEND
       - DRIVE_RECEIVE
@@ -180,9 +213,9 @@ statements:
       - DRIVE_LIST_CHILDREN
 ```
 
-### 2. Allow downloads only for specific email
+### 2. Allow downloads only for a specific user
 
-Only the listed email can download.
+Only the listed user can download.
 
 ```yaml
 scope: OBJECT
@@ -190,8 +223,8 @@ statements:
   - sid: allow-download-owner
     effect: ALLOW
     subjects:
-      identity_emails:
-        - owner@example.com
+      principal_srns:
+        - stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:owner@example.com
     actions:
       - DRIVE_DOWNLOAD
 ```
@@ -206,8 +239,8 @@ statements:
   - sid: allow-readers
     effect: ALLOW
     subjects:
-      group_names:
-        - readers
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:readers
     actions:
       - DRIVE_LIST_CHILDREN
       - DRIVE_DOWNLOAD
@@ -223,17 +256,15 @@ statements:
   - sid: deny-delete
     effect: DENY
     subjects:
-      identity_types:
-        - UPN
-        - API
-        - AGENT
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_DELETE
 ```
 
-### 5. Allow uploads for API only
+### 5. Allow uploads for a specific API key
 
-Only API clients can send/upload; users cannot.
+Only a specific API key can send/upload.
 
 ```yaml
 scope: OBJECT
@@ -241,39 +272,39 @@ statements:
   - sid: allow-api-upload
     effect: ALLOW
     subjects:
-      identity_types:
-        - API
+      principal_srns:
+        - stllr:iam:api:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:service-account
     actions:
       - DRIVE_SEND
       - DRIVE_LIST_CHILDREN
 ```
 
-### 6. Allow users but deny API for sensitive folder
+### 6. Allow a specific user but deny a specific API key
 
-Users can read; API keys cannot.
+A specific user can read; a specific API key cannot.
 
 ```yaml
 scope: OBJECT
 statements:
-  - sid: allow-users
+  - sid: allow-user
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
+      principal_srns:
+        - stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:alice@example.com
     actions:
       - DRIVE_LIST_CHILDREN
       - DRIVE_DOWNLOAD
   - sid: deny-api
     effect: DENY
     subjects:
-      identity_types:
-        - API
+      principal_srns:
+        - stllr:iam:api:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:service-account
     actions:
       - DRIVE_LIST_CHILDREN
       - DRIVE_DOWNLOAD
 ```
 
-### 7. Multiple emails with full access
+### 7. Multiple users with full access
 
 Several users get full access.
 
@@ -283,10 +314,10 @@ statements:
   - sid: allow-team
     effect: ALLOW
     subjects:
-      identity_emails:
-        - alice@example.com
-        - bob@example.com
-        - carol@example.com
+      principal_srns:
+        - stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:alice@example.com
+        - stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:bob@example.com
+        - stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:carol@example.com
     actions:
       - DRIVE_SEND
       - DRIVE_RECEIVE
@@ -309,8 +340,8 @@ statements:
   - sid: allow-partners-read
     effect: ALLOW
     subjects:
-      group_names:
-        - external-partners
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:external-partners
     actions:
       - DRIVE_LIST_CHILDREN
       - DRIVE_DOWNLOAD
@@ -327,8 +358,8 @@ statements:
   - sid: allow-editors
     effect: ALLOW
     subjects:
-      group_names:
-        - editors
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:editors
     actions:
       - DRIVE_SEND
       - DRIVE_RECEIVE
@@ -342,8 +373,8 @@ statements:
   - sid: allow-viewers
     effect: ALLOW
     subjects:
-      group_names:
-        - viewers
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:viewers
     actions:
       - DRIVE_LIST_CHILDREN
       - DRIVE_DOWNLOAD
@@ -360,9 +391,8 @@ statements:
   - sid: allow-ops
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
-        - API
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_SEND
       - DRIVE_RECEIVE
@@ -376,10 +406,8 @@ statements:
   - sid: deny-share-links
     effect: DENY
     subjects:
-      identity_types:
-        - UPN
-        - API
-        - AGENT
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_SHARE
       - DRIVE_SHARE_REVOKE
@@ -395,8 +423,8 @@ statements:
   - sid: allow-risk-approvers-download
     effect: ALLOW
     subjects:
-      group_names:
-        - risk-approvers
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:risk-approvers
     actions:
       - DRIVE_DOWNLOAD
       - DRIVE_STREAM
@@ -413,9 +441,8 @@ statements:
   - sid: allow-all-read-write
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
-        - API
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_SEND
       - DRIVE_RECEIVE
@@ -428,8 +455,8 @@ statements:
   - sid: allow-admins-access-control
     effect: ALLOW
     subjects:
-      group_names:
-        - admins
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:admins
     actions:
       - DRIVE_CHANGE_ACCESS
 ```
@@ -444,17 +471,16 @@ statements:
   - sid: allow-custodians-lock-freeze
     effect: ALLOW
     subjects:
-      group_names:
-        - data-custodians
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:data-custodians
     actions:
       - DRIVE_LOCK
       - DRIVE_FREEZE
   - sid: allow-others-normal
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
-        - API
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_SEND
       - DRIVE_RECEIVE
@@ -477,9 +503,8 @@ statements:
   - sid: allow-ops
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
-        - API
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_SEND
       - DRIVE_RECEIVE
@@ -491,10 +516,8 @@ statements:
   - sid: deny-structure
     effect: DENY
     subjects:
-      identity_types:
-        - UPN
-        - API
-        - AGENT
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_RENAME
       - DRIVE_MOVE
@@ -510,9 +533,8 @@ statements:
   - sid: allow-copy-download
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
-        - API
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_DOWNLOAD
       - DRIVE_STREAM
@@ -521,17 +543,15 @@ statements:
   - sid: deny-delete
     effect: DENY
     subjects:
-      identity_types:
-        - UPN
-        - API
-        - AGENT
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_DELETE
 ```
 
-### 16. Agents can only receive
+### 16. A specific agent can only receive
 
-Automated agents can only receive (upload) into the folder; they cannot download or delete.
+A specific agent can only receive (upload) into the folder.
 
 ```yaml
 scope: OBJECT
@@ -539,8 +559,8 @@ statements:
   - sid: allow-agents-receive
     effect: ALLOW
     subjects:
-      identity_types:
-        - AGENT
+      principal_srns:
+        - stllr:iam:agent:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:upload-agent
     actions:
       - DRIVE_RECEIVE
       - DRIVE_LIST_CHILDREN
@@ -556,8 +576,8 @@ statements:
   - sid: allow-audit-read
     effect: ALLOW
     subjects:
-      group_names:
-        - audit-readers
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:audit-readers
     actions:
       - DRIVE_LIST_CHILDREN
       - DRIVE_DOWNLOAD
@@ -574,8 +594,8 @@ statements:
   - sid: allow-contractors-upload
     effect: ALLOW
     subjects:
-      group_names:
-        - contractors
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:contractors
     actions:
       - DRIVE_SEND
       - DRIVE_LIST_CHILDREN
@@ -591,8 +611,8 @@ statements:
   - sid: allow-finance
     effect: ALLOW
     subjects:
-      group_names:
-        - finance-team
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:finance-team
     actions:
       - DRIVE_SEND
       - DRIVE_RECEIVE
@@ -620,18 +640,18 @@ statements:
   - sid: allow-audit-read-only
     effect: ALLOW
     subjects:
-      group_names:
-        - auditors
-        - compliance-officers
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:auditors
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:compliance-officers
     actions:
       - DRIVE_LIST_CHILDREN
       - DRIVE_DOWNLOAD
       - DRIVE_STREAM
 ```
 
-### 21. Mixed identity types and groups
+### 21. Mixed: specific user and a group
 
-Allow both human users and a specific group.
+Allow both a specific user and a specific group.
 
 ```yaml
 scope: OBJECT
@@ -639,10 +659,9 @@ statements:
   - sid: allow-users-and-sync-group
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
-      group_names:
-        - sync-service
+      principal_srns:
+        - stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:alice@example.com
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:sync-service
     actions:
       - DRIVE_SEND
       - DRIVE_RECEIVE
@@ -660,9 +679,8 @@ statements:
   - sid: allow-all-create-link
     effect: ALLOW
     subjects:
-      identity_types:
-        - UPN
-        - API
+      principal_srns:
+        - "*"
     actions:
       - DRIVE_SHARE
       - DRIVE_LIST_CHILDREN
@@ -670,8 +688,8 @@ statements:
   - sid: allow-admins-revoke
     effect: ALLOW
     subjects:
-      group_names:
-        - admins
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:admins
     actions:
       - DRIVE_SHARE_REVOKE
 ```
@@ -688,7 +706,7 @@ Policies can also be written in JSON.
       "sid": "allow-download",
       "effect": "ALLOW",
       "subjects": {
-        "identity_emails": ["reviewer@example.com"]
+        "principal_srns": ["stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:reviewer@example.com"]
       },
       "actions": ["DRIVE_DOWNLOAD", "DRIVE_STREAM", "DRIVE_LIST_CHILDREN"]
     }
@@ -698,16 +716,27 @@ Policies can also be written in JSON.
 
 ## Best Practices
 
-1. **Use descriptive `sid` values** – Helps with audit and debugging (e.g. `allow-risk-approvers-download`).
-2. **Principle of least privilege** – Grant only the actions needed; avoid allow-all unless necessary.
-3. **Prefer `group_names` over `identity_emails`** – Groups are easier to maintain as team membership changes.
-4. **Order matters for DENY** – DENY always wins; place broad allow statements first, then targeted denies.
-5. **Test before activating** – Create a new version, verify it in the portal, then activate.
-6. **Confirm policy attachment** – Policies only apply when attached to the object or an ancestor folder.
+1. **Use descriptive `sid` values** – Helps with audit and debugging
+   (e.g. `allow-risk-approvers-download`).
+2. **Principle of least privilege** – Grant only the actions needed;
+   avoid allow-all unless necessary.
+3. **Prefer group SRNs over individual identity SRNs** – Groups are
+   easier to maintain as team membership changes.
+4. **Order matters for DENY** – DENY always wins; place broad allow
+   statements first, then targeted denies.
+5. **Test before activating** – Create a new version, verify it in the
+   portal, then activate.
+6. **Confirm policy attachment** – Policies only apply when attached to
+   the object or an ancestor folder.
 
 ## Troubleshooting
 
-- **403 on all actions** – Check that the policy is attached to the object (or parent). Use the policy dump script to verify storage.
-- **Email in policy but still denied** – Ensure the logged-in email matches exactly (case-insensitive); check for typos (e.g. `user@example.com` vs `userb@example.com`).
-- **Group not matching** – Ensure the group exists in the organization/partner context and the user is a member.
-- **Empty subjects** – If `subjects` is `{}` or all lists are empty, the statement never matches anyone.
+- **403 on all actions** – Check that the policy is attached to the
+  object (or parent). Use the policy dump script to verify storage.
+- **Policy not matching expected identity** – Verify the principal SRN
+  exactly matches the identity or group SRN. Look up SRNs in the
+  dashboard or API before authoring.
+- **Group not matching** – Ensure the group SRN is correct and the
+  identity is a member of that group.
+- **Empty subjects** – `principal_srns` is required and must contain
+  at least one entry (use `"*"` for everyone).

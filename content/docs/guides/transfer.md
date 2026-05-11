@@ -11,7 +11,7 @@ are described below.
 ## Before you start
 
 - You need a stellarbridge account with the right role. To **upload**
-  or **stream**, you typically need the **BridgeUser** or **StreamUser**
+  or **stream**, you typically need the **TransferUser** or **StreamUser**
   role; your admin assigns roles.
 - Ensure you are logged in to the stellarbridge dashboard.
 

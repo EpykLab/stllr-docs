@@ -17,8 +17,10 @@ When a user or system triggers an action that has a GATE policy:
    receives an **email** containing a **gate-approval link**.
 2. The link includes a **one-time token**. Open the link in a browser
    (you may need to be logged in or use the token as proof).
-3. The app calls the gate-approve API; the request is **approved** and
-   the original action can proceed.
+3. The app calls the gate-approve API; the request is **approved**.
+   For **share** actions (`DRIVE_SHARE` and `TRANSFER_SHARE`), the
+   original action proceeds automatically. For other gated actions,
+   the user may need to retry the action manually after approval.
 
 **Important:** Use the link only once and only if you intend to approve
 the request. Do not share the link; treat it as sensitive.

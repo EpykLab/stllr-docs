@@ -12,7 +12,7 @@ the main tasks.
 ## Prerequisites
 
 - Access to the stellarbridge dashboard with a role that includes
-  Drive (e.g. BridgeUser or role with drive/object permissions).
+  Drive (e.g. DriveUser or role with drive/object permissions).
 - At least one project visible to you.
 
 ## Browse projects and folders
