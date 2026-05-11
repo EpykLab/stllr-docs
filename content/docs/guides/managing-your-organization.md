@@ -135,7 +135,7 @@ dashboard areas a user can access.
 
 | Role            | Summary                                                                 |
 | --------------- | ----------------------------------------------------------------------- |
-| BridgeUser      | Upload, download, and manage transfers.                                  |
+| TransferUser    | Upload, download, and manage transfers.                                  |
 | GlobalAdmin     | Access to everything.                                                    |
 | OrgUser         | Basic access: uploads, streams, transfer history, organization overview.|
 | RoleAdmin       | Manage roles and permissions assigned to users in the organization.     |
