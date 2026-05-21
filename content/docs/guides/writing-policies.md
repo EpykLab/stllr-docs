@@ -31,6 +31,7 @@ access control](/docs/security/bridge-vs-drive-access/) for the split
 between bridge and Drive.
 
 **Policy lifecycle:**
+
 1. Create a policy in the dashboard under the **organization catalog** or a
    **partner catalog** (see [Managing policies](/docs/guides/managing-policies/))
 2. Add versions (each version is a policy document)
@@ -43,29 +44,29 @@ between bridge and Drive.
 
 Every policy document has:
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `scope` | Yes | `OBJECT` for Drive object policies. `IDENTITY` when the **AccessPolicy** record is identity-scoped (including the **bridge default** policy). Must match the policy row in the dashboard. |
-| `statements` | Yes | Array of one or more statements |
+| Field        | Required | Description                                                                                                                                                                               |
+| ------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scope`      | Yes      | `OBJECT` for Drive object policies. `IDENTITY` when the **AccessPolicy** record is identity-scoped (including the **bridge default** policy). Must match the policy row in the dashboard. |
+| `statements` | Yes      | Array of one or more statements                                                                                                                                                           |
 
 Each statement has:
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `sid` | Yes | Unique identifier (e.g. `allow-download`, `deny-delete`) |
-| `effect` | Yes | `ALLOW`, `DENY`, or `GATE` |
-| `subjects` | Yes | Who the statement applies to (via `principal_srns`) |
-| `actions` | Yes | Array of action strings the statement applies to |
+| Field      | Required | Description                                              |
+| ---------- | -------- | -------------------------------------------------------- |
+| `sid`      | Yes      | Unique identifier (e.g. `allow-download`, `deny-delete`) |
+| `effect`   | Yes      | `ALLOW`, `DENY`, or `GATE`                               |
+| `subjects` | Yes      | Who the statement applies to (via `principal_srns`)      |
+| `actions`  | Yes      | Array of action strings the statement applies to         |
 
 ## Subjects
 
-Subjects define *who* the statement matches through **principal SRNs**
+Subjects define _who_ the statement matches through **principal SRNs**
 (Stellar Resource Names). Each statement's `subjects` block must
 contain `principal_srns` with at least one entry. Matching is OR: if
 the identity matches any principal SRN, the statement applies.
 
-| Subject field | Type | Description |
-|---------------|------|-------------|
+| Subject field    | Type                 | Description                                                                                                 |
+| ---------------- | -------------------- | ----------------------------------------------------------------------------------------------------------- |
 | `principal_srns` | `["*"]` or SRN array | Array of IAM SRN strings. Use `"*"` to match any identity. Use specific SRNs to match identities or groups. |
 
 ### SRN format
@@ -76,13 +77,13 @@ Principal SRNs follow the format:
 stllr:iam:{type}:{hash}:{name}
 ```
 
-| Component | Description |
-|-----------|-------------|
-| `stllr` | Root prefix (always `stllr`) |
-| `iam` | Resource group (always `iam`) |
-| `{type}` | Resource type: `upn` (user), `api` (API key), `agent` (agent), `group` (group), `user` (user entity) |
-| `{hash}` | 32-character hex hash (globally unique) |
-| `{name}` | Human-readable name or email |
+| Component | Description                                                                                          |
+| --------- | ---------------------------------------------------------------------------------------------------- |
+| `stllr`   | Root prefix (always `stllr`)                                                                         |
+| `iam`     | Resource group (always `iam`)                                                                        |
+| `{type}`  | Resource type: `upn` (user), `api` (API key), `agent` (agent), `group` (group), `user` (user entity) |
+| `{hash}`  | 32-character hex hash (globally unique)                                                              |
+| `{name}`  | Human-readable name or email                                                                         |
 
 **Examples:**
 
@@ -108,22 +109,23 @@ Migrate existing policies to `principal_srns`.
 
 Valid actions for OBJECT scope:
 
-| Action | Description |
-|--------|-------------|
-| `DRIVE_SEND` | Send/upload into folder |
-| `DRIVE_RECEIVE` | Receive into folder |
-| `DRIVE_DELETE` | Delete object |
-| `DRIVE_DOWNLOAD` | Download file |
-| `DRIVE_STREAM` | Stream file |
-| `DRIVE_LOCK` | Lock object |
-| `DRIVE_FREEZE` | Freeze object |
-| `DRIVE_CHANGE_ACCESS` | Change policy attachments, view attachments |
-| `DRIVE_RENAME` | Rename object |
-| `DRIVE_MOVE` | Move object |
-| `DRIVE_COPY` | Copy object |
-| `DRIVE_SHARE` | Share a Drive file (email recipient) |
-| `DRIVE_SHARE_REVOKE` | Revoke a Drive share |
-| `DRIVE_LIST_CHILDREN` | List folder contents, create children |
+| Action                          | Description                                 |
+| ------------------------------- | ------------------------------------------- |
+| `DRIVE_SEND`                    | Send/upload into folder                     |
+| `DRIVE_RECEIVE`                 | Receive into folder                         |
+| `DRIVE_DELETE`                  | Delete object                               |
+| `DRIVE_DOWNLOAD`                | Download file                               |
+| `DRIVE_STREAM`                  | Stream file                                 |
+| `DRIVE_LOCK`                    | Lock object                                 |
+| `DRIVE_FREEZE`                  | Freeze object                               |
+| `DRIVE_CHANGE_ACCESS`           | Change policy attachments, view attachments |
+| `DRIVE_RENAME`                  | Rename object                               |
+| `DRIVE_MOVE`                    | Move object                                 |
+| `DRIVE_COPY`                    | Copy object                                 |
+| `DRIVE_SHARE`                   | Share a Drive file (email recipient)        |
+| `DRIVE_SHARE_REVOKE`            | Revoke a Drive share                        |
+| `DRIVE_LIST_CHILDREN`           | List folder contents, create children       |
+| `DRIVE_SECURE_VIEW`<sub>β</sub> | View file using the secure viewer feature   |
 
 ### Bridge actions
 
@@ -138,14 +140,14 @@ equivalent to the example below (ALLOW **`TRANSFER_SEND`**, **`TRANSFER_SHARE`**
 **`TRANSFER_DELETE`**, **`TRANSFER_LOCK`**, **`TRANSFER_READ`**, and
 **`TRANSFER_STREAM`** for all identities).
 
-| Action | Description |
-|--------|-------------|
-| `TRANSFER_SEND` | Create or send a bridge transfer (e.g. multipart upload, transfer request) |
-| `TRANSFER_SHARE` | Share a **transfer** with a recipient (e.g. email the transfer download flow). Not the same as **`DRIVE_SHARE`** on a Drive file. |
-| `TRANSFER_DELETE` | Delete a bridge transfer or transfer request |
-| `TRANSFER_LOCK` | Lock, protect, or apply org lock on bridge transfers |
-| `TRANSFER_READ` | List or view transfer metadata (e.g. API **GET /transfers**, transfer request lookup) |
-| `TRANSFER_STREAM` | Stream a bridge transfer (used by streaming flows) |
+| Action            | Description                                                                                                                       |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `TRANSFER_SEND`   | Create or send a bridge transfer (e.g. multipart upload, transfer request)                                                        |
+| `TRANSFER_SHARE`  | Share a **transfer** with a recipient (e.g. email the transfer download flow). Not the same as **`DRIVE_SHARE`** on a Drive file. |
+| `TRANSFER_DELETE` | Delete a bridge transfer or transfer request                                                                                      |
+| `TRANSFER_LOCK`   | Lock, protect, or apply org lock on bridge transfers                                                                              |
+| `TRANSFER_READ`   | List or view transfer metadata (e.g. API **GET /transfers**, transfer request lookup)                                             |
+| `TRANSFER_STREAM` | Stream a bridge transfer (used by streaming flows)                                                                                |
 
 Example (matches the seeded bridge default):
 
@@ -706,7 +708,9 @@ Policies can also be written in JSON.
       "sid": "allow-download",
       "effect": "ALLOW",
       "subjects": {
-        "principal_srns": ["stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:reviewer@example.com"]
+        "principal_srns": [
+          "stllr:iam:upn:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:reviewer@example.com"
+        ]
       },
       "actions": ["DRIVE_DOWNLOAD", "DRIVE_STREAM", "DRIVE_LIST_CHILDREN"]
     }
