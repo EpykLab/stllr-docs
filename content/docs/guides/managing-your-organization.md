@@ -45,6 +45,7 @@ Settings. Key options:
 | **TOTP requirement** | Require users to enroll in MFA (TOTP) before they can use the org. |
 | **Domain invite-only** | Only users whose email is in the organization domain can be invited. |
 | **Lock-to-org by default** | Transfers are locked to the organization by default (configurable per transfer). |
+| **Tag catalog** | Manage the org tag catalog used by Drive. |
 | **Password rules** | Minimum and maximum length; requirements for digits, lower/upper case, special characters. |
 
 Additional settings may include data custodians (list, add, remove),
@@ -62,8 +63,8 @@ compliance visibility.
 
 ## Organization features
 
-Organizations support: invitations, users, roles, transfer management,
-audit logs, and billing.
+Organizations support: invitations, users, roles, tag catalog
+management, transfer management, audit logs, and billing.
 
 ---
 
@@ -110,6 +111,9 @@ roles. See [RBAC](/docs/security/rbac/) for roles, including
 
 ### Change a user’s role (RBAC)
 
+If your organization uses **TagAdmin**, assign that role to users who
+should manage the tag catalog without broader org admin access.
+
 1. Go to the [Organization](https://stellarbridge.app/dashboard/organization)
    page.
 2. In the **Organization Users** card, open the **...** menu next to the
@@ -139,6 +143,7 @@ dashboard areas a user can access.
 | GlobalAdmin     | Access to everything.                                                    |
 | OrgUser         | Basic access: uploads, streams, transfer history, organization overview.|
 | RoleAdmin       | Manage roles and permissions assigned to users in the organization.     |
+| TagAdmin        | Manage the organization tag catalog used in Drive.                      |
 | SecurityAnalyst | View security reports.                                                  |
 | UploadUser      | Upload and manage own uploads.                                         |
 

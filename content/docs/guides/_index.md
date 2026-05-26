@@ -12,6 +12,8 @@ guide walks you through one goal.
   projects, audit)
 - [Using the Drive](/docs/guides/drive/) — Browse, upload, download,
   share, policies, custody report
+- [Tags](/docs/guides/tags/) — Manage the tag catalog and use tags in
+  Drive
 - [Public links](/docs/guides/public-links/) — Public download, drive
   share, and upload (recipient flows)
 - [Writing policies](/docs/guides/writing-policies/) — Write access

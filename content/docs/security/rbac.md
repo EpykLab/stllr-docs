@@ -33,7 +33,7 @@ allowed API routes.
 
 ## All roles (complete list)
 
-The following 22 roles have route permissions and can be assigned (or
+The following 23 roles have route permissions and can be assigned (or
 assigned automatically) in stellarbridge. Each is described in the
 sections below.
 
@@ -42,7 +42,7 @@ DriveUser, PartnerUser.
 
 **Admin roles:** GlobalAdmin, OrgUserAdmin, RoleAdmin, PolicyAdmin,
 SurfaceAdmin, SecurityAnalyst, TransferAdmin, NetworkAdmin,
-ServiceAccountAdmin, AgentIdentityAdmin.
+ServiceAccountAdmin, AgentIdentityAdmin, TagAdmin.
 
 **Read-only and special roles:** GlobalReader, DataCustodian,
 AuditLogStreamer, FileRequestedUser.
@@ -124,6 +124,7 @@ Every role and its Casbin subject. Descriptions match the tables above.
 | NetworkAdmin | admin:network | Manage network rules. |
 | ServiceAccountAdmin | admin:service-account | Create and manage service accounts (API keys). |
 | AgentIdentityAdmin | admin:agent-identity | Create, update, delete, and rotate API keys for agent identities. |
+| TagAdmin | admin:tag | Manage the organization tag catalog. |
 | **Read-only and special** | | |
 | GlobalReader | reader:global | Read-only access across routes. |
 | DataCustodian | data:custodian | Generate chain-of-custody reports. |
