@@ -46,6 +46,7 @@ Settings. Key options:
 | **Domain invite-only** | Only users whose email is in the organization domain can be invited. |
 | **Lock-to-org by default** | Transfers are locked to the organization by default (configurable per transfer). |
 | **Tag catalog** | Manage the org tag catalog used by Drive. |
+| **Beta features** | Enable tenant features such as Tags and Forms (`platform_forms`). |
 | **Password rules** | Minimum and maximum length; requirements for digits, lower/upper case, special characters. |
 
 Additional settings may include data custodians (list, add, remove),
@@ -64,7 +65,8 @@ compliance visibility.
 ## Organization features
 
 Organizations support: invitations, users, roles, tag catalog
-management, transfer management, audit logs, and billing.
+management, forms (when enabled), transfer management, audit logs, and
+billing.
 
 ---
 
@@ -114,6 +116,10 @@ roles. See [RBAC](/docs/security/rbac/) for roles, including
 If your organization uses **TagAdmin**, assign that role to users who
 should manage the tag catalog without broader org admin access.
 
+If your organization uses **FormAdmin** or **FormsViewResponses**,
+assign those roles to users who should steward the form catalog or
+review submissions org-wide without full org admin access.
+
 1. Go to the [Organization](https://stellarbridge.app/dashboard/organization)
    page.
 2. In the **Organization Users** card, open the **...** menu next to the
@@ -144,6 +150,8 @@ dashboard areas a user can access.
 | OrgUser         | Basic access: uploads, streams, transfer history, organization overview.|
 | RoleAdmin       | Manage roles and permissions assigned to users in the organization.     |
 | TagAdmin        | Manage the organization tag catalog used in Drive.                      |
+| FormAdmin       | Manage any form in the organization (catalog, publications, archive). |
+| FormsViewResponses | Read all form submissions org-wide without catalog changes.          |
 | SecurityAnalyst | View security reports.                                                  |
 | UploadUser      | Upload and manage own uploads.                                         |
 

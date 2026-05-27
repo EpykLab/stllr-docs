@@ -24,6 +24,7 @@ documented.
 | Transfer Studio | Usage; list transfer requests; create transfer request (upload link for recipient)                                                                              | [Transfer a file](/docs/guides/transfer/), [Public links](/docs/guides/public-links/) |
 | Transfers       | History and requests; protect/unprotect; delete; lock-to-org; custody report                                                                                    | [Transfer a file](/docs/guides/transfer/)                                             |
 | Drive           | Browse projects and folders/files; create folder/file; rename or move; delete; upload/download; share link; policy attachments; policy evaluate; custody report | [Using the Drive](/docs/guides/drive/)                                                |
+| Forms           | Create form catalog; edit fields; publish shareable links; collaborators; view responses                                                                      | [Forms](/docs/guides/forms/)                                                          |
 
 ## Policies and control
 
@@ -42,6 +43,7 @@ documented.
 | Organization          | Create org; org panel; manage users (add, remove, disable, enable); invites; org transfers, events, invites; transfer org lock; password reset; MFA compliance; data custodians | [Managing your organization](/docs/guides/managing-your-organization/)                                                |
 | Organization settings | SAML SSO, TOTP requirement, domain invite-only, lock-to-org by default, password rules                                                                                          | [Managing your organization](/docs/guides/managing-your-organization/#organization-settings)                          |
 | Tags                  | Manage the org tag catalog in Settings; assign, remove, and filter tags on Drive files and folders                                                                             | [Tags](/docs/guides/tags/), [Using the Drive](/docs/guides/drive/)                                                    |
+| Forms (beta)          | Enable the Forms tenant feature under Settings → Beta; org-scoped form catalog, publications, and responses                                                                   | [Forms](/docs/guides/forms/)                                                                                          |
 | RBAC                  | List org roles; get, add, or remove user roles by email                                                                                                                         | [RBAC](/docs/security/rbac/), [Managing your organization](/docs/guides/managing-your-organization/#permissions-rbac) |
 | API keys              | List; create; revoke; rotate one or all; delete                                                                                                                                 | Dashboard Settings / API keys                                                                                         |
 | Networking            | List, create, update, delete network rules for the org                                                                                                                          | Dashboard Settings / Networking                                                                                       |
@@ -60,6 +62,7 @@ documented.
 | Public download    | Open link by transfer UUID; view download info; get presigned URL and download      | [Public links](/docs/guides/public-links/#public-download)    |
 | Public drive share | Open share link by token; view share info; get presigned URL and download           | [Public links](/docs/guides/public-links/#public-drive-share) |
 | Public upload      | Open upload link by request UID; view request info; upload files to fulfill request | [Public links](/docs/guides/public-links/#public-upload)      |
+| Public form submit | Open form link by publication token; view fields; submit answers without an account | [Public links](/docs/guides/public-links/#public-form-submit) |
 
 ## Audit
 
@@ -110,3 +113,6 @@ High-level flows that combine the features above:
   info → download → presigned URL.
 - **Approve gate** — Admin receives email with gate-approve link → open
   link (one-time token) → gate-approve API → request approved.
+- **Collect form responses** — Enable Forms under Settings → Beta →
+  create form and fields → publish shareable link → recipient submits
+  via public form page → review responses in Forms.

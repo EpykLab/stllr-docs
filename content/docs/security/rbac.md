@@ -33,7 +33,7 @@ allowed API routes.
 
 ## All roles (complete list)
 
-The following 23 roles have route permissions and can be assigned (or
+The following 25 roles have route permissions and can be assigned (or
 assigned automatically) in stellarbridge. Each is described in the
 sections below.
 
@@ -42,10 +42,10 @@ DriveUser, PartnerUser.
 
 **Admin roles:** GlobalAdmin, OrgUserAdmin, RoleAdmin, PolicyAdmin,
 SurfaceAdmin, SecurityAnalyst, TransferAdmin, NetworkAdmin,
-ServiceAccountAdmin, AgentIdentityAdmin, TagAdmin.
+ServiceAccountAdmin, AgentIdentityAdmin, TagAdmin, FormAdmin.
 
 **Read-only and special roles:** GlobalReader, DataCustodian,
-AuditLogStreamer, FileRequestedUser.
+AuditLogStreamer, FileRequestedUser, FormsViewResponses.
 
 **Machine identity roles:** ApiAgent, StorageMigration.
 
@@ -60,7 +60,7 @@ more roles to users in the organization.
 
 | Role | Best for | What they can do |
 |------|----------|------------------|
-| **OrgUser** | Standard org members | Upload and download files; use the Drive (list projects, partners; list/get policies and versions; notify on policy denial; list identities; objects list, create, get, update, delete, upload, download); view transfer history and org panel; accept org invites; security update. No policy/partner/identity/project create or delete, no protect/unprotect. |
+| **OrgUser** | Standard org members | Upload and download files; use the Drive (list projects, partners; list/get policies and versions; notify on policy denial; list identities; objects list, create, get, update, delete, upload, download); create and manage personal forms (catalog, publish, collaborators, responses on owned forms); view transfer history and org panel; accept org invites; security update. No policy/partner/identity/project create or delete, no protect/unprotect. |
 | **TransferUser** | Users who need uploads, downloads, and streaming | Uploads, downloads, transfer requests, add transfer to Drive, streams (config, session, signal); transfer history; all bridge operations, reports, and analytics. No usage route, no Drive/policy/partner management. |
 | **UploadUser** | Users who only upload (no streaming) | Upload files; manage their own uploads and transfers (protect, unprotect, delete); transfer requests and add transfers to Drive; transfer history. No usage route, no streaming, no Drive/policy/partner management. |
 | **StreamUser** | Users who only stream | Stream only: get stream config and session, update stream config (signal). No uploads, no Drive, no transfer requests. |
@@ -72,7 +72,7 @@ more roles to users in the organization.
 | Role | Best for | What they can do |
 |------|----------|------------------|
 | **GlobalAdmin** | Full platform control | Access to all API routes. Use sparingly. |
-| **OrgUserAdmin** | User lifecycle in the org | Invite users to the organization; create and cancel organization invitations; list, add, and remove org users; delete user accounts. Cannot delete projects. |
+| **OrgUserAdmin** | User lifecycle in the org | Invite users to the organization; create and cancel organization invitations; list, add, and remove org users; delete user accounts; manage the tag catalog and any form in the organization (same scope as FormAdmin, including un-archive). Cannot delete projects. |
 | **RoleAdmin** | Assigning roles | List org roles; get, add, or remove roles for a user (by email). Cannot change org settings or manage content. |
 | **PolicyAdmin** | Policy management | Full CRUD for policies: list (org-wide), create under **organization** or **partner** catalog, get, update, delete, versions, activate, export, import, evaluate, notify policy denial. |
 | **SurfaceAdmin** | Partners and projects | Full CRUD for partners and projects: list, create, delete partners; list, create, update, revoke partner identities; list and create projects (**organization-only** or **partner-scoped**); update partners on partner-scoped projects; delete projects. |
@@ -81,6 +81,8 @@ more roles to users in the organization.
 | **NetworkAdmin** | Network restrictions | List, create, update, and delete network rules for the organization. |
 | **ServiceAccountAdmin** | API keys / service accounts | List, get, add, revoke, rotate (one or all), and delete service accounts (API keys). |
 | **AgentIdentityAdmin** | Agent identities | List, create, update, and delete agent identities; rotate agent API keys; list, add, and remove policy attachments on identities. |
+| **TagAdmin** | Tag catalog | Manage the organization tag catalog used in Drive. |
+| **FormAdmin** | Form catalog | Manage any form in the organization: edit schema, publish and revoke publications, archive and un-archive, collaborator stewardship, org-owned templates. Requires the Forms tenant feature to be enabled. |
 
 ### Read-only and special roles
 
@@ -90,6 +92,7 @@ more roles to users in the organization.
 | **DataCustodian** | Compliance / custody | Generate chain-of-custody reports for transfers. No other access. (Object-level lock/freeze may be added when endpoints exist.) |
 | **AuditLogStreamer** | Viewing audit logs | View user event logs and organization audit logs. No other admin or content access. |
 | **FileRequestedUser** | Anonymous recipients | Assigned automatically when someone uses a transfer-request upload link. Allows only the multipart-upload and URL-info routes needed to fulfill the request. Not assigned in the dashboard. |
+| **FormsViewResponses** | Compliance / intake review | Read-only access to all form definitions and org-wide form submissions. No catalog edits, publications, or collaborator changes. Requires the Forms tenant feature to be enabled. |
 
 ### Machine identity roles (automation / integration)
 
@@ -107,7 +110,7 @@ Every role and its Casbin subject. Descriptions match the tables above.
 | Role | Casbin subject | Description |
 |------|----------------|-------------|
 | **End-user roles** | | |
-| OrgUser | user:org | Basic user access plus Drive (granular: list/get policies, notify denial, list identities/projects, object CRUD); no policy/partner/identity/project write. |
+| OrgUser | user:org | Basic user access plus Drive (granular: list/get policies, notify denial, list identities/projects, object CRUD); personal forms (catalog, publish, collaborators, responses on owned forms); no policy/partner/identity/project write. |
 | TransferUser | user:bridge | Upload, download, and manage transfers; streams; bridge operations, reports, analytics. |
 | UploadUser | user:upload | Upload and manage their uploads; transfer requests; no streaming. |
 | StreamUser | user:stream | Stream and manage their streams only. |
@@ -115,7 +118,7 @@ Every role and its Casbin subject. Descriptions match the tables above.
 | PartnerUser | user:partner | Partner-scoped Drive: create/delete folder, upload/download file; no rename/move or policy routes. |
 | **Admin roles** | | |
 | GlobalAdmin | admin | Access to everything. |
-| OrgUserAdmin | admin:org-user | Delete user accounts; invite and manage org users; create and cancel organization invitations. |
+| OrgUserAdmin | admin:org-user | Delete user accounts; invite and manage org users; create and cancel organization invitations; tag catalog; full form catalog stewardship (including un-archive). |
 | RoleAdmin | admin:role | Manage roles assigned to users in the organization. |
 | PolicyAdmin | admin:policy | Full CRUD for policies. |
 | SurfaceAdmin | admin:surface | Full CRUD for partners and projects. |
@@ -125,11 +128,13 @@ Every role and its Casbin subject. Descriptions match the tables above.
 | ServiceAccountAdmin | admin:service-account | Create and manage service accounts (API keys). |
 | AgentIdentityAdmin | admin:agent-identity | Create, update, delete, and rotate API keys for agent identities. |
 | TagAdmin | admin:tag | Manage the organization tag catalog. |
+| FormAdmin | admin:form | Manage any form in the organization. |
 | **Read-only and special** | | |
 | GlobalReader | reader:global | Read-only access across routes. |
 | DataCustodian | data:custodian | Generate chain-of-custody reports. |
 | AuditLogStreamer | audit:streamer | View user and organization audit logs. |
 | FileRequestedUser | anonymous:transfer:file-requested | Anonymous upload for transfer requests (assigned automatically). |
+| FormsViewResponses | reader:forms-responses | Org-wide read of form submissions (assigned explicitly). |
 | **Machine identity roles** | | |
 | ApiAgent | agent:api | API key agent (MCP/automation) — explicit /api/v1 allowlist via X-API-Key; no policy-attachment mutations. |
 | StorageMigration | agent:storage-migration | Machine identity for importing from external storage (bridge multipart, Drive, partners, projects). |

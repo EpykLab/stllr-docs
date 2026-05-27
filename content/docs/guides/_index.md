@@ -14,6 +14,8 @@ guide walks you through one goal.
   share, policies, custody report
 - [Tags](/docs/guides/tags/) — Manage the tag catalog and use tags in
   Drive
+- [Forms](/docs/guides/forms/) — Create forms, publish shareable links,
+  and review responses
 - [Public links](/docs/guides/public-links/) — Public download, drive
   share, and upload (recipient flows)
 - [Writing policies](/docs/guides/writing-policies/) — Write access
