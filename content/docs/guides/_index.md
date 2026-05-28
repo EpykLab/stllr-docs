@@ -23,7 +23,8 @@ guide walks you through one goal.
 - [Managing policies](/docs/guides/managing-policies/) — Create,
   version, activate, and test policies in the dashboard
 - [Managing your organization](/docs/guides/managing-your-organization/)
-  — Users, invites, roles, and org settings
+  — Users, invites, roles, and org settings (including
+  [how invitations work](/docs/guides/managing-your-organization/#how-invitations-work))
 - [Gate approval](/docs/guides/gate-approval/) — Approve GATE requests,
   notify on policy denial
 - [Export logs to SIEM](/docs/guides/security/) — Forward audit logs to

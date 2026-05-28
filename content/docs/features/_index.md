@@ -10,11 +10,11 @@ documented.
 
 | Feature                          | Description                                                        | Documentation                                                                              |
 | -------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| Sign in / Sign out               | Log in via OIDC (Auth0) or SAML; log out from the user menu        | Dashboard login                                                                            |
+| Sign in / Sign out               | Log in with your invited account or SAML; log out from the user menu | Dashboard login                                                                            |
 | Accept terms of service          | View and accept terms during login or on the standalone terms page | [Terms of service](/docs/about-stellarbridge/terms-of-service/)                            |
-| Complete organization invitation | After accepting an Auth0 org invite, complete setup in the app     | [Managing your organization](/docs/guides/managing-your-organization/#complete-org-invite) |
+| Accept organization invitation   | Open invite email, set password, then sign in to join the org       | [Managing your organization](/docs/guides/managing-your-organization/#how-invitations-work) |
 | Account profile                  | View and update profile; notification preferences; delete account  | Dashboard profile/settings                                                                 |
-| MFA                              | Enroll in MFA (Auth0); app enforces grace period and hard lock     | [Security at stellarbridge](/docs/about-stellarbridge/security-at-stellarbridge/)          |
+| MFA                              | Enroll in MFA when required by your organization                   | [Security at stellarbridge](/docs/about-stellarbridge/security-at-stellarbridge/)          |
 
 ## Dashboard and operations
 
@@ -82,14 +82,14 @@ documented.
 
 High-level flows that combine the features above:
 
-- **Sign in** — Login page (optional return URL or org) → sign in →
-  redirect to Auth0/SAML → callback → terms modal if needed →
-  dashboard.
+- **Sign in** — Open the sign-in page → enter email and password →
+  complete MFA if your organization requires it → accept terms if
+  prompted → dashboard.
 - **Accept terms** — Terms modal or page → read → accept → backend
   records acceptance → continue (e.g. dashboard).
-- **Complete org invite** — Accept invite in Auth0 → land in app with
-  invitation=accepted → “Complete your invitation” → Complete setup →
-  backend completes org link → dashboard.
+- **Join via invitation** — Admin sends invite → invitee opens email →
+  sets password → signs in → dashboard (see
+  [How invitations work](/docs/guides/managing-your-organization/#how-invitations-work)).
 - **View and use Drive** — Open Drive → select project → browse
   folders/files; create folder/file, upload, download, rename, move,
   delete; attach policies, run simulate, custody report; share file
