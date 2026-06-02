@@ -42,11 +42,12 @@ declare module '$env/static/private' {
 	export const npm_command: string;
 	export const GUM_WRITE_CURSOR_BACKGROUND: string;
 	export const GHOSTTY_BIN_DIR: string;
+	export const npm_config_userconfig: string;
 	export const GUM_FILTER_HEADER_FOREGROUND: string;
 	export const COLORTERM: string;
-	export const PI_CODING_AGENT: string;
 	export const HYPRLAND_CMD: string;
 	export const XDG_CONFIG_DIRS: string;
+	export const npm_config_cache: string;
 	export const GUM_FILE_FILE_SIZE_FOREGROUND: string;
 	export const XDG_SESSION_PATH: string;
 	export const XDG_MENU_PREFIX: string;
@@ -58,7 +59,7 @@ declare module '$env/static/private' {
 	export const GUM_FILE_FILE_BACKGROUND: string;
 	export const TMUX: string;
 	export const GUM_FILTER_SELECTED_PREFIX_FOREGROUND: string;
-	export const npm_config_npm_globalconfig: string;
+	export const HISTSIZE: string;
 	export const GUM_FILTER_CURSOR_TEXT_FOREGROUND: string;
 	export const GUM_LOG_VALUE_BACKGROUND: string;
 	export const GUM_CHOOSE_ITEM_BACKGROUND: string;
@@ -68,13 +69,11 @@ declare module '$env/static/private' {
 	export const GUM_FILE_SELECTED_BACKGROUND: string;
 	export const XDG_DATA_HOME: string;
 	export const GUM_WRITE_PLACEHOLDER_FOREGROUND: string;
-	export const npm_config_verify_deps_before_run: string;
 	export const GUM_CONFIRM_SELECTED_BACKGROUND: string;
 	export const GUM_LOG_TIME_FOREGROUND: string;
 	export const INPUT_METHOD: string;
 	export const GUM_FILTER_PROMPT_FOREGROUND: string;
 	export const XCOMPOSEFILE: string;
-	export const npm_config__jsr_registry: string;
 	export const XDG_CONFIG_HOME: string;
 	export const GUM_INPUT_PLACEHOLDER_FOREGROUND: string;
 	export const OMARCHY_PATH: string;
@@ -83,6 +82,8 @@ declare module '$env/static/private' {
 	export const MEMORY_PRESSURE_WRITE: string;
 	export const GUM_FILE_DIRECTORY_FOREGROUND: string;
 	export const GUM_FILE_PERMISSIONS_BACKGROUND: string;
+	export const COLOR: string;
+	export const npm_config_local_prefix: string;
 	export const XMODIFIERS: string;
 	export const GUM_WRITE_LINE_NUMBER_BACKGROUND: string;
 	export const BORDER_FOREGROUND: string;
@@ -105,6 +106,7 @@ declare module '$env/static/private' {
 	export const LOGNAME: string;
 	export const XDG_SESSION_DESKTOP: string;
 	export const GUM_SPIN_TITLE_FOREGROUND: string;
+	export const ATUIN_SHLVL: string;
 	export const XDG_SESSION_TYPE: string;
 	export const GUM_WRITE_CURSOR_LINE_NUMBER_BACKGROUND: string;
 	export const __FNOX_SESSION: string;
@@ -113,6 +115,7 @@ declare module '$env/static/private' {
 	export const GUM_FILE_SYMLINK_FOREGROUND: string;
 	export const GUM_PAGER_MATCH_HIGH_FOREGROUND: string;
 	export const GUM_FILTER_UNSELECTED_PREFIX_BACKGROUND: string;
+	export const npm_config_init_module: string;
 	export const GUM_FILTER_SELECTED_BACKGROUND: string;
 	export const SYSTEMD_EXEC_PID: string;
 	export const GUM_FILTER_PLACEHOLDER_FOREGROUND: string;
@@ -122,12 +125,14 @@ declare module '$env/static/private' {
 	export const GUM_FILE_HEADER_BACKGROUND: string;
 	export const QT_STYLE_OVERRIDE: string;
 	export const MOTD_SHOWN: string;
+	export const ATUIN_TMUX_POPUP: string;
 	export const GHOSTTY_SHELL_FEATURES: string;
 	export const HOME: string;
 	export const GUM_WRITE_LINE_NUMBER_FOREGROUND: string;
 	export const GUM_PAGER_MATCH_FOREGROUND: string;
 	export const LANG: string;
 	export const FNOX_SHELL: string;
+	export const HISTFILE: string;
 	export const _JAVA_AWT_WM_NONREPARENTING: string;
 	export const XDG_CURRENT_DESKTOP: string;
 	export const GUM_TABLE_HEADER_FOREGROUND: string;
@@ -150,8 +155,8 @@ declare module '$env/static/private' {
 	export const XDG_SEAT_PATH: string;
 	export const GUM_PAGER_FOREGROUND: string;
 	export const GUM_INPUT_CURSOR_BACKGROUND: string;
-	export const pnpm_config_verify_deps_before_run: string;
 	export const GUM_PAGER_LINE_NUMBER_BACKGROUND: string;
+	export const SAVEHIST: string;
 	export const MANAGERPID: string;
 	export const GOROOT: string;
 	export const BAT_THEME: string;
@@ -168,6 +173,7 @@ declare module '$env/static/private' {
 	export const GUM_FILTER_INDICATOR_FOREGROUND: string;
 	export const GUM_WRITE_BASE_BACKGROUND: string;
 	export const SDL_IM_MODULE: string;
+	export const npm_config_npm_version: string;
 	export const GHOSTTY_RESOURCES_DIR: string;
 	export const GUM_LOG_LEVEL_FOREGROUND: string;
 	export const GUM_WRITE_HEADER_FOREGROUND: string;
@@ -179,12 +185,12 @@ declare module '$env/static/private' {
 	export const TERMINFO: string;
 	export const npm_package_name: string;
 	export const GUM_INPUT_PLACEHOLDER_BACKGROUND: string;
+	export const __MISE_ZSH_PRECMD_RUN: string;
 	export const GUM_WRITE_PROMPT_BACKGROUND: string;
+	export const npm_config_prefix: string;
 	export const USER: string;
-	export const npm_config_frozen_lockfile: string;
 	export const TMUX_PANE: string;
 	export const SUDO_EDITOR: string;
-	export const OP_SESSION_RREMXBS5UJARLJHGQNK4WZBHEY: string;
 	export const GUM_FILTER_MATCH_BACKGROUND: string;
 	export const OZONE_PLATFORM: string;
 	export const GUM_INPUT_PROMPT_FOREGROUND: string;
@@ -210,12 +216,13 @@ declare module '$env/static/private' {
 	export const GUM_INPUT_PROMPT_BACKGROUND: string;
 	export const GUM_TABLE_SELECTED_FOREGROUND: string;
 	export const XDG_SESSION_ID: string;
+	export const ATUIN_SESSION: string;
 	export const MANAGERPIDFDID: string;
 	export const GUM_FILTER_TEXT_FOREGROUND: string;
 	export const npm_config_user_agent: string;
-	export const PNPM_SCRIPT_SRC_DIR: string;
 	export const XDG_STATE_HOME: string;
 	export const npm_execpath: string;
+	export const ATUIN_HISTORY_ID: string;
 	export const XDG_RUNTIME_DIR: string;
 	export const GUM_WRITE_CURSOR_FOREGROUND: string;
 	export const GUM_TABLE_HEADER_BACKGROUND: string;
@@ -236,6 +243,7 @@ declare module '$env/static/private' {
 	export const GUM_CONFIRM_PROMPT_BACKGROUND: string;
 	export const GDK_BACKEND: string;
 	export const GUM_WRITE_END_OF_BUFFER_FOREGROUND: string;
+	export const npm_config_noproxy: string;
 	export const GUM_WRITE_END_OF_BUFFER_BACKGROUND: string;
 	export const PATH: string;
 	export const GUM_SPIN_SPINNER_FOREGROUND: string;
@@ -247,9 +255,9 @@ declare module '$env/static/private' {
 	export const GUM_FILE_HEADER_FOREGROUND: string;
 	export const GUM_WRITE_CURSOR_LINE_BACKGROUND: string;
 	export const DBUS_SESSION_BUS_ADDRESS: string;
+	export const npm_config_global_prefix: string;
 	export const GUM_FILTER_TEXT_BACKGROUND: string;
 	export const MAIL: string;
-	export const npm_config_registry: string;
 	export const GUM_CONFIRM_UNSELECTED_FOREGROUND: string;
 	export const GUM_TABLE_BORDER_FOREGROUND: string;
 	export const UWSM_FINALIZE_VARNAMES: string;
@@ -265,6 +273,7 @@ declare module '$env/static/private' {
 	export const GUM_CONFIRM_SELECTED_FOREGROUND: string;
 	export const HYPRCURSOR_SIZE: string;
 	export const TERM_PROGRAM: string;
+	export const NODE_ENV: string;
 }
 
 /**
@@ -355,11 +364,12 @@ declare module '$env/dynamic/private' {
 		npm_command: string;
 		GUM_WRITE_CURSOR_BACKGROUND: string;
 		GHOSTTY_BIN_DIR: string;
+		npm_config_userconfig: string;
 		GUM_FILTER_HEADER_FOREGROUND: string;
 		COLORTERM: string;
-		PI_CODING_AGENT: string;
 		HYPRLAND_CMD: string;
 		XDG_CONFIG_DIRS: string;
+		npm_config_cache: string;
 		GUM_FILE_FILE_SIZE_FOREGROUND: string;
 		XDG_SESSION_PATH: string;
 		XDG_MENU_PREFIX: string;
@@ -371,7 +381,7 @@ declare module '$env/dynamic/private' {
 		GUM_FILE_FILE_BACKGROUND: string;
 		TMUX: string;
 		GUM_FILTER_SELECTED_PREFIX_FOREGROUND: string;
-		npm_config_npm_globalconfig: string;
+		HISTSIZE: string;
 		GUM_FILTER_CURSOR_TEXT_FOREGROUND: string;
 		GUM_LOG_VALUE_BACKGROUND: string;
 		GUM_CHOOSE_ITEM_BACKGROUND: string;
@@ -381,13 +391,11 @@ declare module '$env/dynamic/private' {
 		GUM_FILE_SELECTED_BACKGROUND: string;
 		XDG_DATA_HOME: string;
 		GUM_WRITE_PLACEHOLDER_FOREGROUND: string;
-		npm_config_verify_deps_before_run: string;
 		GUM_CONFIRM_SELECTED_BACKGROUND: string;
 		GUM_LOG_TIME_FOREGROUND: string;
 		INPUT_METHOD: string;
 		GUM_FILTER_PROMPT_FOREGROUND: string;
 		XCOMPOSEFILE: string;
-		npm_config__jsr_registry: string;
 		XDG_CONFIG_HOME: string;
 		GUM_INPUT_PLACEHOLDER_FOREGROUND: string;
 		OMARCHY_PATH: string;
@@ -396,6 +404,8 @@ declare module '$env/dynamic/private' {
 		MEMORY_PRESSURE_WRITE: string;
 		GUM_FILE_DIRECTORY_FOREGROUND: string;
 		GUM_FILE_PERMISSIONS_BACKGROUND: string;
+		COLOR: string;
+		npm_config_local_prefix: string;
 		XMODIFIERS: string;
 		GUM_WRITE_LINE_NUMBER_BACKGROUND: string;
 		BORDER_FOREGROUND: string;
@@ -418,6 +428,7 @@ declare module '$env/dynamic/private' {
 		LOGNAME: string;
 		XDG_SESSION_DESKTOP: string;
 		GUM_SPIN_TITLE_FOREGROUND: string;
+		ATUIN_SHLVL: string;
 		XDG_SESSION_TYPE: string;
 		GUM_WRITE_CURSOR_LINE_NUMBER_BACKGROUND: string;
 		__FNOX_SESSION: string;
@@ -426,6 +437,7 @@ declare module '$env/dynamic/private' {
 		GUM_FILE_SYMLINK_FOREGROUND: string;
 		GUM_PAGER_MATCH_HIGH_FOREGROUND: string;
 		GUM_FILTER_UNSELECTED_PREFIX_BACKGROUND: string;
+		npm_config_init_module: string;
 		GUM_FILTER_SELECTED_BACKGROUND: string;
 		SYSTEMD_EXEC_PID: string;
 		GUM_FILTER_PLACEHOLDER_FOREGROUND: string;
@@ -435,12 +447,14 @@ declare module '$env/dynamic/private' {
 		GUM_FILE_HEADER_BACKGROUND: string;
 		QT_STYLE_OVERRIDE: string;
 		MOTD_SHOWN: string;
+		ATUIN_TMUX_POPUP: string;
 		GHOSTTY_SHELL_FEATURES: string;
 		HOME: string;
 		GUM_WRITE_LINE_NUMBER_FOREGROUND: string;
 		GUM_PAGER_MATCH_FOREGROUND: string;
 		LANG: string;
 		FNOX_SHELL: string;
+		HISTFILE: string;
 		_JAVA_AWT_WM_NONREPARENTING: string;
 		XDG_CURRENT_DESKTOP: string;
 		GUM_TABLE_HEADER_FOREGROUND: string;
@@ -463,8 +477,8 @@ declare module '$env/dynamic/private' {
 		XDG_SEAT_PATH: string;
 		GUM_PAGER_FOREGROUND: string;
 		GUM_INPUT_CURSOR_BACKGROUND: string;
-		pnpm_config_verify_deps_before_run: string;
 		GUM_PAGER_LINE_NUMBER_BACKGROUND: string;
+		SAVEHIST: string;
 		MANAGERPID: string;
 		GOROOT: string;
 		BAT_THEME: string;
@@ -481,6 +495,7 @@ declare module '$env/dynamic/private' {
 		GUM_FILTER_INDICATOR_FOREGROUND: string;
 		GUM_WRITE_BASE_BACKGROUND: string;
 		SDL_IM_MODULE: string;
+		npm_config_npm_version: string;
 		GHOSTTY_RESOURCES_DIR: string;
 		GUM_LOG_LEVEL_FOREGROUND: string;
 		GUM_WRITE_HEADER_FOREGROUND: string;
@@ -492,12 +507,12 @@ declare module '$env/dynamic/private' {
 		TERMINFO: string;
 		npm_package_name: string;
 		GUM_INPUT_PLACEHOLDER_BACKGROUND: string;
+		__MISE_ZSH_PRECMD_RUN: string;
 		GUM_WRITE_PROMPT_BACKGROUND: string;
+		npm_config_prefix: string;
 		USER: string;
-		npm_config_frozen_lockfile: string;
 		TMUX_PANE: string;
 		SUDO_EDITOR: string;
-		OP_SESSION_RREMXBS5UJARLJHGQNK4WZBHEY: string;
 		GUM_FILTER_MATCH_BACKGROUND: string;
 		OZONE_PLATFORM: string;
 		GUM_INPUT_PROMPT_FOREGROUND: string;
@@ -523,12 +538,13 @@ declare module '$env/dynamic/private' {
 		GUM_INPUT_PROMPT_BACKGROUND: string;
 		GUM_TABLE_SELECTED_FOREGROUND: string;
 		XDG_SESSION_ID: string;
+		ATUIN_SESSION: string;
 		MANAGERPIDFDID: string;
 		GUM_FILTER_TEXT_FOREGROUND: string;
 		npm_config_user_agent: string;
-		PNPM_SCRIPT_SRC_DIR: string;
 		XDG_STATE_HOME: string;
 		npm_execpath: string;
+		ATUIN_HISTORY_ID: string;
 		XDG_RUNTIME_DIR: string;
 		GUM_WRITE_CURSOR_FOREGROUND: string;
 		GUM_TABLE_HEADER_BACKGROUND: string;
@@ -549,6 +565,7 @@ declare module '$env/dynamic/private' {
 		GUM_CONFIRM_PROMPT_BACKGROUND: string;
 		GDK_BACKEND: string;
 		GUM_WRITE_END_OF_BUFFER_FOREGROUND: string;
+		npm_config_noproxy: string;
 		GUM_WRITE_END_OF_BUFFER_BACKGROUND: string;
 		PATH: string;
 		GUM_SPIN_SPINNER_FOREGROUND: string;
@@ -560,9 +577,9 @@ declare module '$env/dynamic/private' {
 		GUM_FILE_HEADER_FOREGROUND: string;
 		GUM_WRITE_CURSOR_LINE_BACKGROUND: string;
 		DBUS_SESSION_BUS_ADDRESS: string;
+		npm_config_global_prefix: string;
 		GUM_FILTER_TEXT_BACKGROUND: string;
 		MAIL: string;
-		npm_config_registry: string;
 		GUM_CONFIRM_UNSELECTED_FOREGROUND: string;
 		GUM_TABLE_BORDER_FOREGROUND: string;
 		UWSM_FINALIZE_VARNAMES: string;
@@ -578,6 +595,7 @@ declare module '$env/dynamic/private' {
 		GUM_CONFIRM_SELECTED_FOREGROUND: string;
 		HYPRCURSOR_SIZE: string;
 		TERM_PROGRAM: string;
+		NODE_ENV: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}

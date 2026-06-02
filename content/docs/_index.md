@@ -21,7 +21,7 @@ by audience so you can find what you need quickly.
 **Admins**
 
 - [Managing your organization](/docs/guides/managing-your-organization/)
-  — Users, invites, and org settings
+  — Users, invites, and org settings ([invitation flow](/docs/guides/managing-your-organization/#how-invitations-work))
 - [Managing policies](/docs/guides/managing-policies/) — Create,
   version, and activate policies
 - [Writing policies](/docs/guides/writing-policies/) — Policy document

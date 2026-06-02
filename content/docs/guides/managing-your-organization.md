@@ -45,6 +45,8 @@ Settings. Key options:
 | **TOTP requirement** | Require users to enroll in MFA (TOTP) before they can use the org. |
 | **Domain invite-only** | Only users whose email is in the organization domain can be invited. |
 | **Lock-to-org by default** | Transfers are locked to the organization by default (configurable per transfer). |
+| **Tag catalog** | Manage the org tag catalog used by Drive. |
+| **Beta features** | Enable tenant features such as Tags and Forms (`platform_forms`). |
 | **Password rules** | Minimum and maximum length; requirements for digits, lower/upper case, special characters. |
 
 Additional settings may include data custodians (list, add, remove),
@@ -62,8 +64,65 @@ compliance visibility.
 
 ## Organization features
 
-Organizations support: invitations, users, roles, transfer management,
-audit logs, and billing.
+Organizations support: invitations, users, roles, tag catalog
+management, forms (when enabled), transfer management, audit logs, and
+billing.
+
+---
+
+## How invitations work
+
+stellarbridge organizations are **invite-only**. People cannot create
+their own accounts from the public sign-in page; an organization admin
+must invite them first.
+
+### For organization admins
+
+1. Go to the [Organization](https://stellarbridge.app/dashboard/organization)
+   page.
+2. In the **Organization Users** card, enter the invitee’s email address.
+3. Click **Invite**.
+
+The invitee receives an email from stellarbridge with a link to get
+started. You can see pending invitations on the same page and cancel an
+invite from the **...** menu if you sent it by mistake.
+
+If **domain-only invites** are enabled for your organization, you can
+only invite addresses that match your organization’s email domain (for
+example, only `*@yourcompany.com`).
+
+New members are given basic access (typically the **OrgUser** role). To
+grant admin or specialist permissions, assign additional roles after
+they join. See [Permissions (RBAC)](#permissions-rbac) below.
+
+### For invitees (accepting an invitation)
+
+1. Open the invitation email and click **Accept Invitation** (or the
+   link in the message).
+2. Follow the prompts to **set your password** for stellarbridge.
+3. Go to the stellarbridge sign-in page for your organization and
+   **sign in** with the email address that was invited and the password
+   you just created.
+4. If your organization requires multi-factor authentication (MFA), you
+   will be prompted to enroll before you can use the dashboard.
+5. After sign-in, you can use projects, Drive, transfers, and other
+   features according to the roles your admin assigned.
+
+If you already had a stellarbridge account with that email, use the link
+in the invitation email if prompted, then sign in with your existing
+password. Your admin may need to confirm you appear in the organization
+user list.
+
+If the link has expired or you did not receive the email, ask your
+organization admin to send a new invitation or use **Reset password**
+from the sign-in page after they have invited you again.
+
+### What invitees cannot do
+
+- **Self-service sign-up** — There is no public “Create account” path
+  for invite-only organizations. You must be invited by an admin.
+- **Join without an invitation** — Signing in with an email that was
+  never invited will not grant access to the organization.
 
 ---
 
@@ -74,31 +133,8 @@ organization.
 
 ### Add a user
 
-1. Go to the [Organization](https://stellarbridge.app/dashboard/organization)
-   page.
-2. In the **Organization Users** card, enter the invitee’s email in the
-   invite box.
-3. Click **Invite**.
-
-If domain-only invites are enabled, only addresses in the
-organization’s domain can be invited.
-
-### Complete org invite {#complete-org-invite}
-
-If you were invited to an organization and accepted the invite in Auth0
-(or your IdP), you land in the app with an invitation pending. Complete
-the link to the organization:
-
-1. When you see **Complete your invitation** (or similar), click
-   **Complete setup**.
-2. The backend links your account to the organization. You are then
-   taken to the dashboard and can use the org’s projects and features
-   according to your assigned roles.
-
-New users receive a default permission set (typically the **OrgUser**
-role). To grant more permissions, an admin must assign additional
-roles. See [RBAC](/docs/security/rbac/) for roles, including
-[OrgUser](/docs/security/rbac/#orguser).
+Use the steps in [For organization admins](#for-organization-admins)
+above.
 
 ### Remove a user
 
@@ -109,6 +145,13 @@ roles. See [RBAC](/docs/security/rbac/) for roles, including
 3. Click **Remove from org**.
 
 ### Change a user’s role (RBAC)
+
+If your organization uses **TagAdmin**, assign that role to users who
+should manage the tag catalog without broader org admin access.
+
+If your organization uses **FormAdmin** or **FormsViewResponses**,
+assign those roles to users who should steward the form catalog or
+review submissions org-wide without full org admin access.
 
 1. Go to the [Organization](https://stellarbridge.app/dashboard/organization)
    page.
@@ -139,6 +182,9 @@ dashboard areas a user can access.
 | GlobalAdmin     | Access to everything.                                                    |
 | OrgUser         | Basic access: uploads, streams, transfer history, organization overview.|
 | RoleAdmin       | Manage roles and permissions assigned to users in the organization.     |
+| TagAdmin        | Manage the organization tag catalog used in Drive.                      |
+| FormAdmin       | Manage any form in the organization (catalog, publications, archive). |
+| FormsViewResponses | Read all form submissions org-wide without catalog changes.          |
 | SecurityAnalyst | View security reports.                                                  |
 | UploadUser      | Upload and manage own uploads.                                         |
 

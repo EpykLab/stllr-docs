@@ -5,9 +5,9 @@ title: Public links
 **Goal:** Use public links to download or upload files without logging
 in (recipient perspective).
 
-stellarbridge supports three public (unauthenticated) flows: transfer
-download, drive share download, and transfer-request upload. Recipients
-use a link; no account is required.
+stellarbridge supports four public (unauthenticated) flows: transfer
+download, drive share download, transfer-request upload, and form
+submission. Recipients use a link; no account is required.
 
 ## Public download
 
@@ -58,10 +58,30 @@ fulfill the request without an account.
 No login is required. Request and upload behavior are subject to org
 and policy settings.
 
+## Public form submit {#public-form-submit}
+
+Used when a form owner publishes a **form link** (by publication token).
+The recipient completes the form and submits answers without an account.
+
+1. A form owner publishes a form from **Forms** and shares the
+   publication link (token in the URL). See [Forms](/docs/guides/forms/#publish-a-shareable-link).
+2. Recipient opens the **form link**.
+3. The public form page shows the published fields (pinned to the schema
+   at publish time).
+4. Recipient completes required fields and **submits**. The response is
+   stored as an immutable snapshot tied to the publication.
+
+No login is required. Submissions are rate-limited. Revoking the
+publication or archiving the form stops new submissions on that link.
+Answer values are visible only to authorized org members; audit events
+record submission metadata without answer payloads.
+
 ---
 
 ## See also
 
+- [Forms](/docs/guides/forms/) — Create forms, publish links, and review
+  responses (sender perspective)
 - [Transfer a file](/docs/guides/transfer/) — How senders create
   transfers and transfer requests
 - [Using the Drive](/docs/guides/drive/) — Create a share and send link

@@ -14,6 +14,8 @@ the main tasks.
 - Access to the stellarbridge dashboard with a role that includes
   Drive (e.g. DriveUser or role with drive/object permissions).
 - At least one project visible to you.
+- To manage the tag catalog, you need the TagAdmin role (or
+  OrgUserAdmin, if your org allows it).
 
 ## Browse projects and folders
 
@@ -61,6 +63,29 @@ the main tasks.
   structure and [Managing policies](/docs/guides/managing-policies/) for
   creating and activating policies.
 
+## Tags
+
+Tags are organization-scoped labels. The tag catalog lives in
+**Settings → Tags**; Drive uses that catalog to assign labels to files
+and folders.
+
+1. Open **Drive** and select a project.
+2. Open an object’s menu or inspector and choose **Add tag**.
+3. Pick one or more tags from the catalog. Assigned tags appear as
+   chips on the row.
+4. To remove a tag, open the object menu or inspector and choose the
+   tag to remove.
+5. Use the **Tags** filter bar to narrow the project tree. Multiple
+   selected tags match **all** selected tags.
+
+Notes:
+
+- Assigning or removing tags requires write access on the object.
+- Partner viewers can read host tags on shared projects, but they
+  cannot manage the catalog.
+- When the feature is disabled for your tenant, existing tags remain
+  visible but catalog and assignment changes are blocked.
+
 ## Custody report
 
 To generate a chain-of-custody report for an object (e.g. for
@@ -80,4 +105,5 @@ compliance or audit):
   version, and activate policies in the dashboard
 - [Public links](/docs/guides/public-links/) — Public download and
   share flows
+- [Tags](/docs/guides/tags/) — Tag catalog and Drive labeling
 - [RBAC](/docs/security/rbac/) — Roles and route access
