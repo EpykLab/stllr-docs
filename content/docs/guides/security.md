@@ -23,6 +23,10 @@ events in OCSF format, including:
 * **Organization events** - Settings changes, invitations, and administrative actions
 * **API access events** - API key usage and authentication attempts
 
+See the [audit action codes](/docs/reference/audit-action-codes/) and
+[audit result codes](/docs/reference/audit-result-codes/) reference
+pages to look up numeric codes in exported events.
+
 **Tip:** For more context, see [Audit logging](/docs/about-stellarbridge/audit-logging/),
 [Security at stellarbridge](/docs/about-stellarbridge/security-at-stellarbridge/), and
 [Security architecture](/docs/about-stellarbridge/security-architecture-at-stellarbridge/).

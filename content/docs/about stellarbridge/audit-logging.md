@@ -98,6 +98,11 @@ Troubleshooting
 
 ### Related resources
 
+- [Audit action codes](/docs/reference/audit-action-codes/) — lookup
+  table for action codes (what happened)
+- [Audit result codes](/docs/reference/audit-result-codes/) — lookup
+  table for result codes (outcome)
+- [Audit targets and actors](/docs/reference/audit-targets-and-actors/)
 - [Security at stellarbridge](/docs/about-stellarbridge/security-at-stellarbridge/)
 - [Security architecture](/docs/about-stellarbridge/security-architecture-at-stellarbridge/)
 - [RBAC](/docs/security/rbac/)
