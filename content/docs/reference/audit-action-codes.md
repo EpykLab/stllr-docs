@@ -1,12 +1,9 @@
 ---
 title: Audit action codes
-description: Auto-generated audit action codes (what happened) from stellarbridge-app.
+description: Audit action codes (what happened) in stellarbridge.
 weight: 20
-tags: [reference, audit, generated]
+tags: [reference, audit]
 ---
-
-> Auto-generated from `stellarbridge-app`. Do not edit by hand.
-> Regenerate: `task docs:sync` in the stllr repo.
 
 Look up a numeric code or constant name to see its meaning. Codes are grouped by category.
 

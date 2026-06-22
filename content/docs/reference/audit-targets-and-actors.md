@@ -1,12 +1,9 @@
 ---
 title: Audit targets and actors
-description: Auto-generated audit log target and actor constants from stellarbridge-app.
+description: Audit log target and actor constants for stellarbridge.
 weight: 30
-tags: [reference, audit, generated]
+tags: [reference, audit]
 ---
-
-> Auto-generated from `stellarbridge-app`. Do not edit by hand.
-> Regenerate: `task docs:sync` in the stllr repo.
 
 ## Targets
 

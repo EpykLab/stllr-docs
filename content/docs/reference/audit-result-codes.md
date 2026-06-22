@@ -1,12 +1,9 @@
 ---
 title: Audit result codes
-description: Auto-generated audit result codes (outcome) from stellarbridge-app.
+description: Audit result codes (outcome) in stellarbridge.
 weight: 20
-tags: [reference, audit, generated]
+tags: [reference, audit]
 ---
-
-> Auto-generated from `stellarbridge-app`. Do not edit by hand.
-> Regenerate: `task docs:sync` in the stllr repo.
 
 Look up a numeric code or constant name to see its meaning. Codes are grouped by category.
 

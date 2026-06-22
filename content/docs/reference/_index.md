@@ -1,13 +1,12 @@
 ---
 title: Reference
-description: Auto-generated and lookup tables for RBAC roles and audit log codes.
+description: Lookup tables for RBAC roles and audit log codes.
 weight: 90
 tags: [reference]
 ---
 
-These pages are generated from the stellarbridge application source
-code. Regenerate them with `task docs:sync` in the stllr repository
-after adding or changing roles, audit actions, or result codes.
+These pages list roles, API routes, and audit log codes for
+administrators and integrators.
 
 ## Pages
 
