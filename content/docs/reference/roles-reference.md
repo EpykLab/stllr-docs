@@ -1,12 +1,9 @@
 ---
 title: Roles reference
-description: Auto-generated RBAC role and route reference from stellarbridge-app.
+description: RBAC role and route reference for stellarbridge.
 weight: 10
-tags: [reference, rbac, generated]
+tags: [reference, rbac]
 ---
-
-> Auto-generated from `stellarbridge-app`. Do not edit by hand.
-> Regenerate: `task docs:sync` in the stllr repo.
 
 Complete list of roles, Casbin subjects, and allowed API routes.
 
