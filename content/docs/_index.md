@@ -40,3 +40,9 @@ by audience so you can find what you need quickly.
 - [Privacy](/docs/privacy/) — Data handling and third-party processors
 - [Trust Portal](/docs/trust-portal/) — Request audit reports and
   security evidence
+
+**Training**
+
+- [Platform hands-on scenarios](/docs/training/platform-hands-on-scenarios/)
+  — Structured exercises for new users covering transfers, Drive,
+  policies, forms, partners, admin, audit, and data flow

@@ -317,6 +317,39 @@ textarea {
   border-bottom: 0;
 }
 
+/* gendocs catalog tables: Code | Title | Description */
+.prose .gendocs-catalog-table table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.prose .gendocs-catalog-table th,
+.prose .gendocs-catalog-table td {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.prose .gendocs-catalog-table th:first-child,
+.prose .gendocs-catalog-table td:first-child {
+  white-space: nowrap;
+  min-width: 0;
+  width: 5.5rem;
+}
+
+.prose .gendocs-catalog-table th:nth-child(2),
+.prose .gendocs-catalog-table td:nth-child(2) {
+  min-width: 0;
+  width: 38%;
+  white-space: normal;
+}
+
+.prose .gendocs-catalog-table th:last-child,
+.prose .gendocs-catalog-table td:last-child {
+  min-width: 0;
+  width: auto;
+  white-space: normal;
+}
+
 @media (max-width: 900px) {
   .prose table {
     display: block;
@@ -328,6 +361,17 @@ textarea {
   .prose th:first-child,
   .prose td:first-child {
     min-width: 14rem;
+  }
+
+  .prose .gendocs-catalog-table th:first-child,
+  .prose .gendocs-catalog-table td:first-child {
+    min-width: 0;
+    width: 5.5rem;
+  }
+
+  .prose .gendocs-catalog-table table {
+    display: table;
+    overflow-x: visible;
   }
 
   .prose pre {

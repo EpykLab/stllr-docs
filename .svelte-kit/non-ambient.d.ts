@@ -27,7 +27,7 @@ export {};
 
 declare module "$app/types" {
 	export interface AppTypes {
-		RouteId(): "/" | "/api" | "/api/docs" | "/api/docs/chat" | "/api/docs/nav" | "/api/docs/search-index" | "/docs" | "/docs/[...slug]";
+		RouteId(): "/" | "/api" | "/api/docs" | "/api/docs/chat" | "/api/docs/nav" | "/api/docs/search-index" | "/docs" | "/docs/[...slug]" | "/robots.txt" | "/sitemap.xml";
 		RouteParams(): {
 			"/docs/[...slug]": { slug: string }
 		};
@@ -39,9 +39,11 @@ declare module "$app/types" {
 			"/api/docs/nav": Record<string, never>;
 			"/api/docs/search-index": Record<string, never>;
 			"/docs": { slug?: string };
-			"/docs/[...slug]": { slug: string }
+			"/docs/[...slug]": { slug: string };
+			"/robots.txt": Record<string, never>;
+			"/sitemap.xml": Record<string, never>
 		};
-		Pathname(): "/" | "/api/docs/chat" | "/api/docs/nav" | "/api/docs/search-index" | "/docs" | `/docs/${string}` & {};
+		Pathname(): "/" | "/api/docs/chat" | "/api/docs/nav" | "/api/docs/search-index" | "/docs" | `/docs/${string}` & {} | "/robots.txt" | "/sitemap.xml";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
 		Asset(): "/.gitkeep" | "/apple-touch-icon.png" | "/cover.jpg" | "/docs/trust portal/user-manual/user-login.png" | "/docs/trust portal/user-manual/user-mfa-setup.png" | "/docs/trust portal/user-manual/user-new-request-questionnaire.png" | "/docs/trust portal/user-manual/user-req-dropdown-for-details.png" | "/docs/trust portal/user-manual/user-request-detailed-report-bottom.png" | "/docs/trust portal/user-manual/user-request-detailed-report-top.png" | "/docs/trust portal/user-manual/user-requests-made.png" | "/docs/trust portal/user-manual/user-sign-up.png" | "/docs/trust-portal/trust-portal-user-manual/user-login.png" | "/docs/trust-portal/trust-portal-user-manual/user-mfa-setup.png" | "/docs/trust-portal/trust-portal-user-manual/user-new-request-questionnaire.png" | "/docs/trust-portal/trust-portal-user-manual/user-req-dropdown-for-details.png" | "/docs/trust-portal/trust-portal-user-manual/user-request-detailed-report-bottom.png" | "/docs/trust-portal/trust-portal-user-manual/user-request-detailed-report-top.png" | "/docs/trust-portal/trust-portal-user-manual/user-requests-made.png" | "/docs/trust-portal/trust-portal-user-manual/user-sign-up.png" | "/docs/trust-portal/user-manual/user-login.png" | "/docs/trust-portal/user-manual/user-mfa-setup.png" | "/docs/trust-portal/user-manual/user-new-request-questionnaire.png" | "/docs/trust-portal/user-manual/user-req-dropdown-for-details.png" | "/docs/trust-portal/user-manual/user-request-detailed-report-bottom.png" | "/docs/trust-portal/user-manual/user-request-detailed-report-top.png" | "/docs/trust-portal/user-manual/user-requests-made.png" | "/docs/trust-portal/user-manual/user-sign-up.png" | "/icon.svg" | "/logo.svg" | string & {};
 	}

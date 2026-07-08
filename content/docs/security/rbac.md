@@ -29,6 +29,9 @@ stellarbridge uses [Casbin](https://casbin.org/) to enforce RBAC. Each
 role has a **Casbin subject** (internal identifier) and a set of
 allowed API routes.
 
+For the complete route-per-role reference table (auto-generated from
+code), see [Roles reference](/docs/reference/roles-reference/).
+
 ---
 
 ## All roles (complete list)

@@ -16,5 +16,11 @@
 	],
 	"/docs/[...slug]": [
 		"src/routes/docs/[...slug]/+page.server.ts"
+	],
+	"/robots.txt": [
+		"src/routes/robots.txt/+server.ts"
+	],
+	"/sitemap.xml": [
+		"src/routes/sitemap.xml/+server.ts"
 	]
 }
