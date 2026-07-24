@@ -45,6 +45,34 @@ That reduces several browser-centric exfiltration paths tied to local file
 handles and document caches. It does not turn every endpoint into a zero-trust
 kiosk; see [limitations](#what-secure-viewer-does-not-solve) below.
 
+## External secure-view shares
+
+An authorized Drive user can send an external recipient a Secure Viewer
+share instead of a download share. The recipient does not need a
+Stellarbridge account, but must prove control of the designated mailbox
+with a one-time email code before starting a viewer.
+
+An optional share password adds a separate verification factor. When a
+password is configured, Stellarbridge verifies it before sending an email
+code. Successful email verification creates a short-lived, isolated browser
+session. It does not create a dashboard login or grant access to any other
+file.
+
+External secure-view sharing uses `DRIVE_SHARE_SECURE_VIEW`. This is
+separate from:
+
+- `DRIVE_SECURE_VIEW`, which permits a signed-in user to open the viewer.
+- `DRIVE_SHARE`, which permits creation of a downloadable Drive share.
+- `DRIVE_DOWNLOAD`, which permits the signed-in user to download a file.
+
+Allowing any one of these actions does not grant the others. Policies
+attached to ancestor folders apply to their descendant files.
+
+A secure-view share is checked again when the recipient starts a viewer and
+while the stream is active. Revocation, file freeze, deletion, expiry, or a
+policy change that removes access blocks activation and terminates affected
+active sessions.
+
 ## What Secure Viewer does not solve
 
 Secure Viewer removes or narrows a class of technical risk; it does **not**
@@ -74,6 +102,8 @@ recipients.
    requires to open Secure Viewer in the dashboard, and an effective **Drive
    policy** that allows **`DRIVE_SECURE_VIEW`** for that principal on the object
    (listed with other Drive actions in [Writing policies](/docs/guides/writing-policies/#actions)).
+   Creating an external viewer share instead requires
+   **`DRIVE_SHARE_SECURE_VIEW`** for the sender.
 
 ## Related documentation
 

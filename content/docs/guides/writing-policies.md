@@ -122,7 +122,8 @@ Valid actions for OBJECT scope:
 | `DRIVE_RENAME`                  | Rename object                               |
 | `DRIVE_MOVE`                    | Move object                                 |
 | `DRIVE_COPY`                    | Copy object                                 |
-| `DRIVE_SHARE`                   | Share a Drive file (email recipient)        |
+| `DRIVE_SHARE`                   | Create a downloadable Drive share           |
+| `DRIVE_SHARE_SECURE_VIEW`<sub>β</sub> | Create an external Secure Viewer share |
 | `DRIVE_SHARE_REVOKE`            | Revoke a Drive share                        |
 | `DRIVE_LIST_CHILDREN`           | List folder contents, create children       |
 | `DRIVE_SECURE_VIEW`<sub>β</sub> | View file using the secure viewer feature   |
@@ -180,9 +181,10 @@ validate, then **activate** it (and update attachments if needed).
 
 - **ALLOW** – Permit the action
 - **DENY** – Block the action (takes precedence over ALLOW)
-- **GATE** – Require admin approval before action proceeds. In v1,
-  only **`DRIVE_SHARE`** and **`TRANSFER_SHARE`** automatically replay
-  after approval; other gated actions require manual retry.
+- **GATE** – Require admin approval before action proceeds. Share actions
+  **`DRIVE_SHARE`**, **`DRIVE_SHARE_SECURE_VIEW`**, and
+  **`TRANSFER_SHARE`** automatically replay after approval. Other gated
+  actions require manual retry.
 
 ## Examples
 
@@ -211,9 +213,32 @@ statements:
       - DRIVE_MOVE
       - DRIVE_COPY
       - DRIVE_SHARE
+      - DRIVE_SHARE_SECURE_VIEW
       - DRIVE_SHARE_REVOKE
       - DRIVE_LIST_CHILDREN
 ```
+
+### Secure-view sharing without download sharing
+
+The actions for downloadable and secure-view shares are independent. This
+policy allows a review group to send external Secure Viewer links without
+allowing that group to create downloadable shares.
+
+```yaml
+scope: OBJECT
+statements:
+  - sid: allow-controlled-external-review
+    effect: ALLOW
+    subjects:
+      principal_srns:
+        - stllr:iam:group:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:reviewers
+    actions:
+      - DRIVE_SHARE_SECURE_VIEW
+```
+
+A separate statement must allow `DRIVE_SHARE` if this group should also
+create downloadable links. A folder attachment applies this rule to its
+files and descendant folders.
 
 ### 2. Allow downloads only for a specific user
 

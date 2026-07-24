@@ -26,19 +26,45 @@ sender and org (e.g. transfer protection, expiry).
 
 ## Public drive share
 
-Used when a user shares a **drive share link** (by token) so someone can
-download a file from the Drive without logging in.
+A Drive share can permit an original-file download or require Secure
+Viewer. The recipient does not need a Stellarbridge account.
 
-1. A user creates a share from the Drive (see [Using the
-   Drive](/docs/guides/drive/#share-a-file-send-link-by-email)) and
-   sends the link to the recipient.
-2. Recipient opens the **share link** (token in the URL).
-3. The public share page shows **share info** (e.g. file name, size).
-4. Recipient clicks **Download**. The app returns a presigned URL and
-   the file is downloaded.
+### Download a shared Drive file
 
-No login is required. Share links are subject to policy (e.g.
-`DRIVE_SHARE`) and can be revoked.
+1. Open the link from the share email.
+2. Review the file name, size, and access type.
+3. Enter the share password if the sender configured one.
+4. Choose **Download**.
+
+The download link is limited by its expiry and use count. The sender can
+revoke it. Download shares are subject to `DRIVE_SHARE` policy when they
+are created.
+
+### View a shared Drive file securely
+
+1. Open the link from the share email.
+2. If prompted, enter the share password. Password verification happens
+   before Stellarbridge sends an email code.
+3. Choose **Send verification code**. The code goes only to the email
+   address selected by the sender.
+4. Enter the six-digit code within 10 minutes.
+5. Choose **Open Secure Viewer**.
+6. Close the viewer when you finish. You can return while the share is
+   valid, but you must verify again after the short verification session
+   expires.
+
+Opening a link or requesting a code does not start a viewer. Viewer
+resources are created only after successful verification and an explicit
+**Open Secure Viewer** action.
+
+Only one Secure Viewer session can be active for a share. A policy change,
+file freeze, deletion, expiry, or share revocation blocks new sessions and
+terminates an affected active session. A freeze suspends access; explicit
+share revocation is permanent.
+
+Secure-view shares do not provide a public presigned download URL. They do
+not prevent screenshots, screen recording, photography, OCR, or manual
+capture of visible information.
 
 ## Public upload
 

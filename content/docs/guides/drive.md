@@ -43,13 +43,33 @@ the main tasks.
 3. Use that URL to download the file. Downloads are subject to policy
    (e.g. DOWNLOAD on the object).
 
-## Share a file (send link by email)
+## Share a file by email
 
-1. In Drive, open the file’s menu.
-2. Choose **Share** or **Create share**.
-3. Enter the recipient email and send. The recipient receives a
-   share link (token). They can open it without logging in and
-   download the file. See [Public drive share](/docs/guides/public-links/#public-drive-share).
+1. In Drive, open the file's menu.
+2. Choose **Share**.
+3. Enter the recipient email.
+4. Choose the recipient's access:
+   - **Allow download** sends a one-time original-file download.
+   - **View securely** requires email verification and opens the file
+     through Secure Viewer without providing an original-file download.
+5. Optionally add a share password. Send that password to the recipient
+   through a separate channel.
+6. Choose **Send link**.
+
+The link is sent only to the recipient. It is not displayed to you in
+Stellarbridge after it is sent.
+
+Secure-view sharing is available only when Secure Viewer is enabled for
+both the platform and your organization. The effective policy on the file
+must allow `DRIVE_SHARE_SECURE_VIEW`. A policy on an ancestor folder also
+applies to its files and subfolders.
+
+Secure Viewer blocks the normal original-file download path. It cannot
+prevent screenshots, screen recording, photography, OCR, or manual capture
+of visible information.
+
+See [Public drive share](/docs/guides/public-links/#public-drive-share) for
+recipient instructions.
 
 ## Policy attachments and evaluate
 
