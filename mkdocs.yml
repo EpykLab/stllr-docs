@@ -19,9 +19,18 @@ theme:
   favicon: assets/icon.svg
   font: false
   palette:
-    scheme: stellarbridge
-    primary: custom
-    accent: custom
+    - scheme: stellarbridge
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: stellarbridge-dark
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
   features:
     - content.code.copy
     - navigation.footer

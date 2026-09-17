@@ -2,9 +2,10 @@
 title: Forms
 ---
 
-> [!IMPORTANT]
-> At current, forms are not designed for, and should not be used to
-> collect ePHI.
+!!! warning "Important"
+
+    At current, forms are not designed for, and should not be used to
+    collect ePHI.
 
 **Goal:** Create form definitions, publish shareable links, and review
 submissions.
