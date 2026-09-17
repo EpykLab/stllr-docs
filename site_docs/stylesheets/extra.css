@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap');
+
+[data-md-color-scheme="stellarbridge"] {
+  --md-primary-fg-color: #0a6b54;
+  --md-primary-fg-color--light: #c5eedc;
+  --md-primary-fg-color--dark: #085a46;
+  --md-accent-fg-color: #0a6b54;
+  --md-accent-fg-color--transparent: rgba(10, 107, 84, 0.12);
+  --md-default-fg-color: #0f1e18;
+  --md-default-fg-color--light: #4d6b5c;
+  --md-default-fg-color--lighter: #6b8578;
+  --md-default-bg-color: #f2f7f4;
+  --md-typeset-a-color: #0a6b54;
+  --md-code-fg-color: #1a2e25;
+  --md-code-bg-color: #e8f6f0;
+  --md-footer-bg-color: #0f1e18;
+  --md-footer-bg-color--dark: #09130f;
+}
+
+:root {
+  --stellarbridge-surface: rgba(255, 255, 255, 0.82);
+  --stellarbridge-line: #c9ddd2;
+  --stellarbridge-line-strong: #b0cdbf;
+  --stellarbridge-ink: #0f1e18;
+  --stellarbridge-muted: #4d6b5c;
+  --stellarbridge-accent: #0a6b54;
+  --stellarbridge-accent-hover: #085a46;
+  --stellarbridge-accent-subtle: #e8f6f0;
+  --stellarbridge-radius: 16px;
+  --stellarbridge-radius-sm: 10px;
+  --stellarbridge-shadow: 0 4px 16px -6px rgba(12, 35, 28, 0.12);
+}
+
+body,
+input {
+  font-family: 'Manrope', sans-serif;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 90% 70% at 12% 5%, rgba(199, 235, 218, 0.5) 0%, transparent 45%),
+    radial-gradient(ellipse 75% 50% at 88% 2%, rgba(242, 234, 212, 0.4) 0%, transparent 40%),
+    linear-gradient(180deg, #f5faf7 0%, #eaf4ef 48%, #f2f7f4 100%);
+}
+
+.md-header {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--stellarbridge-ink);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--stellarbridge-line);
+  box-shadow: none;
+}
+
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 1.75rem;
+  width: auto;
+}
+
+.md-header__topic,
+.md-search__input,
+.md-tabs,
+.md-nav {
+  font-family: 'Manrope', sans-serif;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  color: var(--stellarbridge-ink);
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+}
+
+.md-typeset h2 {
+  border-bottom: 1px solid var(--stellarbridge-line);
+  padding-bottom: 0.25rem;
+}
+
+.md-main__inner {
+  margin-top: 1.5rem;
+}
+
+.md-content__inner {
+  background: var(--stellarbridge-surface);
+  border: 1px solid var(--stellarbridge-line);
+  border-radius: var(--stellarbridge-radius);
+  box-shadow: var(--stellarbridge-shadow);
+  padding: 1.6rem 2rem 2rem;
+}
+
+.md-typeset {
+  color: #1a2e25;
+  line-height: 1.72;
+}
+
+.md-typeset a:hover {
+  color: var(--stellarbridge-accent-hover);
+}
+
+.md-typeset code,
+.md-typeset pre > code {
+  border-radius: 6px;
+}
+
+.md-typeset pre {
+  border: 1px solid var(--stellarbridge-line);
+  border-radius: var(--stellarbridge-radius-sm);
+  box-shadow: var(--stellarbridge-shadow);
+}
+
+.md-typeset blockquote {
+  background: var(--stellarbridge-accent-subtle);
+  border-left: 4px solid var(--stellarbridge-accent);
+  border-radius: 0 var(--stellarbridge-radius-sm) var(--stellarbridge-radius-sm) 0;
+  color: var(--stellarbridge-muted);
+  padding: 0.25rem 1rem;
+}
+
+.md-typeset table:not([class]) {
+  background: white;
+  border: 1px solid var(--stellarbridge-line);
+  border-radius: var(--stellarbridge-radius-sm);
+  box-shadow: var(--stellarbridge-shadow);
+}
+
+.md-typeset img {
+  border-radius: var(--stellarbridge-radius-sm);
+}
+
+.md-search__form {
+  background: var(--stellarbridge-accent-subtle);
+  border: 1px solid var(--stellarbridge-line);
+  border-radius: var(--stellarbridge-radius-sm);
+}
+
+.md-nav__link--active,
+.md-nav__link:hover {
+  color: var(--stellarbridge-accent);
+}
+
+@media screen and (max-width: 76.234375em) {
+  .md-nav--primary .md-nav__title[for="__drawer"] {
+    background: var(--stellarbridge-accent);
+    color: white;
+  }
+}
+
+@media screen and (max-width: 44.984375em) {
+  .md-content__inner {
+    border-left: 0;
+    border-radius: 0;
+    border-right: 0;
+    padding: 1rem 1.2rem 1.5rem;
+  }
+}

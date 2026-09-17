@@ -1,0 +1,111 @@
+site_name: Stellarbridge Documentation
+site_description: Documentation for the Stellarbridge secure data exchange platform.
+site_url: https://docs.stellarbridge.app/
+repo_url: https://github.com/EpykLab/stllr-docs
+repo_name: EpykLab/stllr-docs
+edit_uri: edit/master/site_docs/
+
+docs_dir: site_docs
+site_dir: site
+use_directory_urls: true
+strict: true
+hooks:
+  - scripts/post_build.py
+
+theme:
+  name: material
+  language: en
+  logo: assets/logo.svg
+  favicon: assets/icon.svg
+  font: false
+  palette:
+    scheme: stellarbridge
+    primary: custom
+    accent: custom
+  features:
+    - content.code.copy
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_css:
+  - stylesheets/extra.css
+
+not_in_nav: |
+  /index.md
+
+nav:
+  - Documentation:
+      - docs/index.md
+      - About stellarbridge:
+          - docs/about-stellarbridge/index.md
+          - Audit logging: docs/about-stellarbridge/audit-logging.md
+          - Compliance at stellarbridge: docs/about-stellarbridge/compliance-at-stellarbridge.md
+          - Security architecture at stellarbridge: docs/about-stellarbridge/security-architecture-at-stellarbridge.md
+          - Security at stellarbridge: docs/about-stellarbridge/security-at-stellarbridge.md
+          - Terms of Service: docs/about-stellarbridge/terms-of-service.md
+      - Features: docs/features/index.md
+      - Moving files:
+          - docs/moving-files/index.md
+          - File uploads: docs/moving-files/uploading-files.md
+          - File streaming: docs/moving-files/streaming-files.md
+      - Guides:
+          - docs/guides/index.md
+          - Transfer: docs/guides/transfer.md
+          - Using the Drive: docs/guides/drive.md
+          - Public links: docs/guides/public-links.md
+          - Managing your organization: docs/guides/managing-your-organization.md
+          - Managing policies: docs/guides/managing-policies.md
+          - Writing policies: docs/guides/writing-policies.md
+          - Gate approval: docs/guides/gate-approval.md
+          - Forms: docs/guides/forms.md
+          - Tags: docs/guides/tags.md
+          - Security: docs/guides/security.md
+          - Using the Stellarbridge MCP: docs/guides/mcp.md
+      - Security:
+          - docs/security/index.md
+          - Role-based access control: docs/security/rbac.md
+          - Bridge transfers and Drive access control: docs/security/bridge-vs-drive-access.md
+          - Secure Viewer: docs/security/secure-viewer.md
+      - Compliance:
+          - docs/compliance/index.md
+          - Compliance with stellarbridge: docs/compliance/compliance-with-stellarbridge.md
+      - Privacy:
+          - docs/privacy/index.md
+          - How we handle your information: docs/privacy/how-we-handle-your-information.md
+          - 3rd Party Processors: docs/privacy/3rd-party-processors.md
+      - Trust Portal:
+          - docs/trust-portal/index.md
+          - User manual: docs/trust-portal/user-manual/index.md
+      - Training:
+          - docs/training/index.md
+          - Platform hands-on scenarios: docs/training/platform-hands-on-scenarios.md
+      - Reference:
+          - docs/reference/index.md
+          - Roles reference: docs/reference/roles-reference.md
+          - Audit action codes: docs/reference/audit-action-codes.md
+          - Audit result codes: docs/reference/audit-result-codes.md
+          - Audit targets and actors: docs/reference/audit-targets-and-actors.md

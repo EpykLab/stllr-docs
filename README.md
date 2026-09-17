@@ -1,52 +1,51 @@
-# stllr-docs
+# Stellarbridge documentation
 
-SvelteKit-based docs experience for Stellarbridge.
+The public Stellarbridge documentation site is built with
+[MkDocs](https://www.mkdocs.org/) and
+[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
-## Content Source
+## Repository layout
 
-- Source markdown is now local in `content/docs/**` (migrated from `public-docs/content/docs/**`).
-- Static assets/images are local in `static/**` (migrated from `public-docs/static/**`).
-- The app reads local docs content at runtime/build time and renders it with:
-  - frontmatter (`title`, `description`, `weight`, `tags`, `aliases`, `draft`)
-  - heading extraction for TOC
-  - generated search index endpoint
+- `site_docs/docs/` contains the documentation pages.
+- `site_docs/stylesheets/extra.css` contains the Stellarbridge theme.
+- `mkdocs.yml` defines navigation, Markdown features, and site metadata.
+- `tests/expected_urls.txt` is the public URL contract inherited from the
+  previous SvelteKit site.
+- `scripts/check_urls.py` verifies the generated pages and internal links.
 
-## Development
+The `site_docs/docs/` prefix is intentional. It keeps every existing public
+page at its original `/docs/.../` URL.
+
+## Local development
+
+Install the pinned dependency and start the development server:
 
 ```bash
-pnpm install
-pnpm dev
+python -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.lock
+mkdocs serve
 ```
+
+Open <http://127.0.0.1:8000/docs/>.
 
 ## Validation
 
-```bash
-pnpm check
-pnpm build
-```
-
-## Deploy to Fly (same app as public-docs)
-
-This app includes `app/stllr-docs/fly.toml` with `app = "stllr-public-docs"` and a SvelteKit Node Dockerfile.
-
-Deploy from repo root:
+Build in strict mode and verify the URL contract:
 
 ```bash
-fly deploy -c app/stllr-docs/fly.toml app/stllr-docs
+mkdocs build --strict
+python scripts/check_urls.py
 ```
 
-Or from inside `app/stllr-docs`:
+If a documentation page is intentionally added or removed, update
+`tests/expected_urls.txt` in the same change. Existing entries must not be
+renamed or removed without a redirect plan. The same check preserves legacy
+static assets and GitHub-style heading fragments used by deep links.
 
-```bash
-fly deploy
-```
+## Deployment
 
-## API Endpoints
-
-- `/api/docs/nav` returns the generated docs navigation tree.
-- `/api/docs/search-index` returns index data used by client-side search.
-
-## Notes
-
-- Current search is in-app MiniSearch to provide immediate quality search while keeping the stack static and self-hosted.
-- A Pagefind build step can be added in a follow-up if you want search indexing to run strictly post-build.
+Pushes to `master` are deployed to the existing `stllr-public-docs` Fly.io
+application by `.github/workflows/deploy-docs.yaml`. The Docker image builds
+the static MkDocs site, then serves it with nginx on port 8080. Nginx preserves
+the previous `307 / → /docs/` redirect.
