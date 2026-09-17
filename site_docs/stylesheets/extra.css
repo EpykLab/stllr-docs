@@ -32,7 +32,7 @@
   --stellarbridge-shadow: 0 4px 16px -6px rgba(12, 35, 28, 0.12);
 }
 
-[data-md-color-scheme="stellarbridge-dark"] {
+[data-md-color-scheme="slate"] {
   --md-primary-fg-color: #75d6ae;
   --md-primary-fg-color--light: #9be4c7;
   --md-primary-fg-color--dark: #48b98c;
