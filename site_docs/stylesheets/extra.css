@@ -15,10 +15,7 @@
   --md-code-bg-color: #e8f6f0;
   --md-footer-bg-color: #0f1e18;
   --md-footer-bg-color--dark: #09130f;
-  --stellarbridge-page-bg:
-    radial-gradient(ellipse 90% 70% at 12% 5%, rgba(199, 235, 218, 0.5) 0%, transparent 45%),
-    radial-gradient(ellipse 75% 50% at 88% 2%, rgba(242, 234, 212, 0.4) 0%, transparent 40%),
-    linear-gradient(180deg, #f5faf7 0%, #eaf4ef 48%, #f2f7f4 100%);
+  --stellarbridge-page-bg: #f2f7f4;
   --stellarbridge-header: rgba(255, 255, 255, 0.9);
   --stellarbridge-surface: rgba(255, 255, 255, 0.82);
   --stellarbridge-table: #ffffff;
@@ -47,10 +44,7 @@
   --md-code-bg-color: #1a382d;
   --md-footer-bg-color: #0a1410;
   --md-footer-bg-color--dark: #07100c;
-  --stellarbridge-page-bg:
-    radial-gradient(ellipse 90% 70% at 12% 5%, rgba(35, 86, 65, 0.42) 0%, transparent 45%),
-    radial-gradient(ellipse 75% 50% at 88% 2%, rgba(83, 73, 45, 0.22) 0%, transparent 40%),
-    linear-gradient(180deg, #101f19 0%, #0d1914 48%, #0a1510 100%);
+  --stellarbridge-page-bg: #0d1914;
   --stellarbridge-header: rgba(13, 25, 20, 0.92);
   --stellarbridge-surface: rgba(20, 39, 31, 0.94);
   --stellarbridge-table: #14271f;
