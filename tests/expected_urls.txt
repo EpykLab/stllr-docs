@@ -28,6 +28,7 @@
 /docs/privacy/how-we-handle-your-information/
 /docs/reference/
 /docs/reference/audit-action-codes/
+/docs/reference/audit-log-reference/
 /docs/reference/audit-result-codes/
 /docs/reference/audit-targets-and-actors/
 /docs/reference/roles-reference/

@@ -10,6 +10,9 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     name: Validate MkDocs site
@@ -58,7 +61,7 @@ jobs:
     name: Deploy to Fly.io
     runs-on: ubuntu-latest
     needs: validate
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     concurrency:
       group: deploy-docs
       cancel-in-progress: false
