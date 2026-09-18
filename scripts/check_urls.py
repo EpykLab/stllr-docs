@@ -13,6 +13,7 @@ from xml.etree import ElementTree
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 EXPECTED_FILE = ROOT / "tests" / "expected_urls.txt"
+EXPECTED_VIDEO_FILE = ROOT / "tests" / "expected_video_urls.txt"
 EXPECTED_STATIC_FILE = ROOT / "tests" / "expected_static_urls.txt"
 EXPECTED_ANCHORS_FILE = ROOT / "tests" / "expected_anchors.txt"
 LINK_PATTERN = re.compile(r'''(?:href|src)=["']([^"']+)["']''')
@@ -34,6 +35,11 @@ def main() -> None:
         for line in EXPECTED_FILE.read_text(encoding="utf-8").splitlines()
         if line.strip() and not line.startswith("#")
     }
+    expected_videos = {
+        line.strip()
+        for line in EXPECTED_VIDEO_FILE.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.startswith("#")
+    }
     expected_static = {
         line.strip()
         for line in EXPECTED_STATIC_FILE.read_text(encoding="utf-8").splitlines()
@@ -52,6 +58,12 @@ def main() -> None:
         elif not route_to_output(route).is_file():
             errors.append(f"missing generated page for {route}")
 
+    for route in sorted(expected_videos):
+        if not route.startswith("/videos/") or not route.endswith("/"):
+            errors.append(f"invalid video URL contract entry: {route}")
+        elif not route_to_output(route).is_file():
+            errors.append(f"missing generated page for {route}")
+
     generated = {
         f"/{path.relative_to(SITE).parent.as_posix()}/"
         for path in (SITE / "docs").rglob("index.html")
@@ -60,6 +72,15 @@ def main() -> None:
         errors.append(f"unexpected documentation URL: {route}")
     for route in sorted(expected - generated):
         errors.append(f"expected documentation URL was not generated: {route}")
+
+    generated_videos = {
+        f"/{path.relative_to(SITE).parent.as_posix()}/"
+        for path in (SITE / "videos").rglob("index.html")
+    }
+    for route in sorted(generated_videos - expected_videos):
+        errors.append(f"unexpected video URL: {route}")
+    for route in sorted(expected_videos - generated_videos):
+        errors.append(f"expected video URL was not generated: {route}")
 
     for url in sorted(expected_static):
         output = SITE / unquote(url).lstrip("/")
@@ -111,7 +132,8 @@ def main() -> None:
         for element in sitemap.findall("{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc")
     }
     expected_sitemap_locations = {
-        f"https://docs.stellarbridge.app{route}" for route in expected
+        f"https://docs.stellarbridge.app{route}"
+        for route in expected | expected_videos
     }
     if sitemap_locations != expected_sitemap_locations:
         for location in sorted(expected_sitemap_locations - sitemap_locations):
@@ -124,6 +146,7 @@ def main() -> None:
 
     print(
         f"Verified {len(expected)} documentation URLs, "
+        f"{len(expected_videos)} video URLs, "
         f"{len(expected_static)} static URLs, {len(expected_anchors)} heading URLs, "
         "and all same-site absolute links."
     )

@@ -7,10 +7,15 @@ The public Stellarbridge documentation site is built with
 ## Repository layout
 
 - `site_docs/docs/` contains the documentation pages.
+- `site_docs/videos/` contains video scripts, transcripts, and companion
+  resources. These pages are public by URL but intentionally omitted from the
+  main navigation.
 - `site_docs/stylesheets/extra.css` contains the Stellarbridge theme.
 - `mkdocs.yml` defines navigation, Markdown features, and site metadata.
 - `tests/expected_urls.txt` is the public URL contract inherited from the
   previous SvelteKit site.
+- `tests/expected_video_urls.txt` is the URL contract for the unlisted video
+  section.
 - `scripts/check_urls.py` verifies the generated pages and internal links.
 
 The `site_docs/docs/` prefix is intentional. It keeps every existing public
@@ -42,6 +47,8 @@ If a documentation page is intentionally added or removed, update
 `tests/expected_urls.txt` in the same change. Existing entries must not be
 renamed or removed without a redirect plan. The same check preserves legacy
 static assets and GitHub-style heading fragments used by deep links.
+
+When adding a video page, add its route to `tests/expected_video_urls.txt`.
 
 ## Deployment
 
