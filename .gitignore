@@ -1,5 +1,6 @@
 
 node_modules/
 build/
+site/
 .obsidian/
 .svelte-kit
