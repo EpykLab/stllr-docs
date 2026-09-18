@@ -9,7 +9,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## User TargetAccount Actions (1000-1099) { #user-targetaccount-actions-1000-1099 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -24,7 +24,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## MFA Actions (1100-1199) { #mfa-actions-1100-1199 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -36,7 +36,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Auth0 Actions (1200-1299) { #auth0-actions-1200-1299 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -64,7 +64,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## API Key Actions (1300-1399) { #api-key-actions-1300-1399 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -78,7 +78,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## File TargetTransfer Actions (2000-2099) { #file-targettransfer-actions-2000-2099 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -93,7 +93,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## TargetStorage Actions (2100-2199) { #targetstorage-actions-2100-2199 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -106,7 +106,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Subscription/Payment Actions (3000-3099) { #subscriptionpayment-actions-3000-3099 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -120,7 +120,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## System Actions (4000-4099) { #system-actions-4000-4099 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -132,7 +132,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Notification Actions (5000-5099) { #notification-actions-5000-5099 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -149,7 +149,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Policy decision actions (6000-6099) - policy engine allow/deny for audit/OCSF { #policy-decision-actions-6000-6099---policy-engine-allowdeny-for-auditocsf }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -160,7 +160,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Policy CRUD actions (6100-6199) - access policy authoring { #policy-crud-actions-6100-6199---access-policy-authoring }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -179,7 +179,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Network rule actions (6200-6299) { #network-rule-actions-6200-6299 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -192,7 +192,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## VFS object actions (6300-6399) { #vfs-object-actions-6300-6399 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -213,7 +213,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Support actions (6400-6499) { #support-actions-6400-6499 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -224,7 +224,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Terms actions (6500-6599) { #terms-actions-6500-6599 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -235,7 +235,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Tenancy actions (6600-6699) - partners and projects { #tenancy-actions-6600-6699---partners-and-projects }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -252,7 +252,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Identity (agent identity) actions (6620-6629) { #identity-agent-identity-actions-6620-6629 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -264,7 +264,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Group actions (6630-6639) { #group-actions-6630-6639 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -276,7 +276,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Partner external identity actions (6640-6649) { #partner-external-identity-actions-6640-6649 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -289,7 +289,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Data flow visualization (6700-6709) { #data-flow-visualization-6700-6709 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -299,7 +299,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Platform tags (6710-6719) { #platform-tags-6710-6719 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
@@ -313,7 +313,7 @@ Look up a numeric code or constant name to see its meaning. Codes are grouped by
 
 ## Platform forms (6720-6729) { #platform-forms-6720-6729 }
 
-<div class="gendocs-catalog-table">
+<div class="gendocs-catalog-table" markdown="1">
 
 | Code | Title | Description |
 |------|-------|-------------|
