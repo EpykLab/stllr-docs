@@ -115,6 +115,7 @@ nav:
       - Reference:
           - docs/reference/index.md
           - Roles reference: docs/reference/roles-reference.md
+          - Audit log reference: docs/reference/audit-log-reference.md
           - Audit action codes: docs/reference/audit-action-codes.md
           - Audit result codes: docs/reference/audit-result-codes.md
           - Audit targets and actors: docs/reference/audit-targets-and-actors.md

@@ -12,6 +12,9 @@ administrators and integrators.
 
 - [Roles reference](/docs/reference/roles-reference/) — every role,
   Casbin subject, and allowed API route
+- [Audit log reference](/docs/reference/audit-log-reference/) — Public
+  Audit API, OCSF event shape, pagination, event families, and field
+  semantics
 - [Audit action codes](/docs/reference/audit-action-codes/) — what
   happened (action code lookup)
 - [Audit result codes](/docs/reference/audit-result-codes/) — outcome

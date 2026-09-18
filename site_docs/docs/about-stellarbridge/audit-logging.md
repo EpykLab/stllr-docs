@@ -98,6 +98,8 @@ Troubleshooting
 
 ### Related resources { #related-resources }
 
+- [Audit log reference](/docs/reference/audit-log-reference/) — Public
+  Audit API response shape, fields, event families, and pagination
 - [Audit action codes](/docs/reference/audit-action-codes/) — lookup
   table for action codes (what happened)
 - [Audit result codes](/docs/reference/audit-result-codes/) — lookup
@@ -109,5 +111,4 @@ Troubleshooting
 - [File uploads](/docs/moving-files/uploading-files/), [File
   streaming](/docs/moving-files/streaming-files/)
 - Need help? Contact support
-
 

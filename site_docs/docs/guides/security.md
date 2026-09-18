@@ -27,6 +27,9 @@ See the [audit action codes](/docs/reference/audit-action-codes/) and
 [audit result codes](/docs/reference/audit-result-codes/) reference
 pages to look up numeric codes in exported events.
 
+For the complete response contract and field semantics, see the [Audit
+log reference](/docs/reference/audit-log-reference/).
+
 **Tip:** For more context, see [Audit logging](/docs/about-stellarbridge/audit-logging/),
 [Security at stellarbridge](/docs/about-stellarbridge/security-at-stellarbridge/), and
 [Security architecture](/docs/about-stellarbridge/security-architecture-at-stellarbridge/).
@@ -77,9 +80,7 @@ X-API-Key: YOUR_API_KEY_HERE
 - `endTime` - End of time range in ISO 8601 format (e.g., `2025-01-16T00:00:00Z`)
 - `actor` - Filter by the Actor (user ID) who performed the action
 - `fileName` - Filter by the name of the file involved
-- `fileHash` - Filter by the hash of the file involved
-- `orgId` - Filter by Organization ID
-- `userId` - Filter by User ID
+- `flowId` - Filter by the UUID that correlates events from one user flow
 - `limit` - Maximum number of logs to return (integer, default: 50, min: 1, max: 1000)
 - `offset` - Number of logs to skip for pagination (integer, default: 0, min: 0)
 

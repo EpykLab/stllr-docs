@@ -37,6 +37,8 @@ by audience so you can find what you need quickly.
   areas
 - [Export logs to SIEM](/docs/guides/security/) — Audit log export and
   API
+- [Audit log reference](/docs/reference/audit-log-reference/) — Event
+  schema, field types, event families, and action/result codes
 - [Privacy](/docs/privacy/) — Data handling and third-party processors
 - [Trust Portal](/docs/trust-portal/) — Request audit reports and
   security evidence
